@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XPNode.Domain
+namespace Domain
 {
     public class Employee : Entity
     {
@@ -8,9 +8,14 @@ namespace XPNode.Domain
         public Guid WalletId { get; set; }
         public Guid OrganizationId { get; set; }
 
+        private Employee()
+        {
+
+        }
+
         public Employee(
-            Guid walletId, 
-            Guid organizationId, 
+            Guid walletId,
+            Guid organizationId,
             Metadata meta) : base(meta)
         {
             WalletId = walletId;
@@ -18,9 +23,9 @@ namespace XPNode.Domain
         }
 
         public Employee(
-            string name, 
-            Guid walletId, 
-            Guid organizationId, 
+            string name,
+            Guid walletId,
+            Guid organizationId,
             Metadata meta) : base(meta)
         {
             Name = name;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XPNode.Domain
+namespace Domain
 {
     public class PieceOfWork : Entity
     {
@@ -17,6 +17,8 @@ namespace XPNode.Domain
                 if (value <= 1M) _weight = value;
             }
         }
+
+        private PieceOfWork() { }
 
         public PieceOfWork(
             Guid projectId, 

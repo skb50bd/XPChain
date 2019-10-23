@@ -5,11 +5,9 @@ VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{F251EC78-DC0E-4252-9754-028932D161DB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{7DC9F0BD-3BCC-4C6E-BBFC-C5B3CDC4E629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{3F0CAE1D-C077-496D-8553-F8F1ED7F7C9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XPWallet", "XPWallet\XPWallet.csproj", "{3D73F3E6-8E89-4696-BF69-5C13BB616E45}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPData", "XPData\XPData.csproj", "{3F0CAE1D-C077-496D-8553-F8F1ED7F7C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{8A6862E8-05A3-485B-8721-9031EC60405C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +19,14 @@ Global
 		{F251EC78-DC0E-4252-9754-028932D161DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F251EC78-DC0E-4252-9754-028932D161DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F251EC78-DC0E-4252-9754-028932D161DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DC9F0BD-3BCC-4C6E-BBFC-C5B3CDC4E629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DC9F0BD-3BCC-4C6E-BBFC-C5B3CDC4E629}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DC9F0BD-3BCC-4C6E-BBFC-C5B3CDC4E629}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DC9F0BD-3BCC-4C6E-BBFC-C5B3CDC4E629}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D73F3E6-8E89-4696-BF69-5C13BB616E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D73F3E6-8E89-4696-BF69-5C13BB616E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D73F3E6-8E89-4696-BF69-5C13BB616E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D73F3E6-8E89-4696-BF69-5C13BB616E45}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F0CAE1D-C077-496D-8553-F8F1ED7F7C9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F0CAE1D-C077-496D-8553-F8F1ED7F7C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F0CAE1D-C077-496D-8553-F8F1ED7F7C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F0CAE1D-C077-496D-8553-F8F1ED7F7C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A6862E8-05A3-485B-8721-9031EC60405C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A6862E8-05A3-485B-8721-9031EC60405C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A6862E8-05A3-485B-8721-9031EC60405C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A6862E8-05A3-485B-8721-9031EC60405C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

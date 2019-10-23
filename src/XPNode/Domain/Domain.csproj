@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>XPNode.Domain</RootNamespace>
-    <AssemblyName>XPNode</AssemblyName>
+    <RootNamespace>Domain</RootNamespace>
+    <AssemblyName>XPDomain</AssemblyName>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

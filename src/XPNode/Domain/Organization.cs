@@ -1,12 +1,18 @@
 ﻿using System;
 
-namespace XPNode.Domain
+namespace Domain
 {
     public class Organization : Entity
     {
         public Guid Owner { get; set; }
         public string Name { get; set; }
         public decimal Balance { get; set; }
+
+
+        private Organization()
+        {
+            Name = string.Empty;
+        }
 
         public Organization(
             Guid owner, 

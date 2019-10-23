@@ -1,11 +1,16 @@
 ﻿using System;
 
-namespace XPNode.Domain
+namespace Domain
 {
     public abstract class Entity
     {
         public Guid Id { get; set; }
         public Metadata Meta { get; set; }
+
+        protected Entity()
+        {
+            Meta = new Metadata();
+        }
 
         protected Entity(Guid id, Metadata meta)
         {
