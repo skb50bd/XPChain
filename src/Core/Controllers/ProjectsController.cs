@@ -8,7 +8,6 @@ namespace Core.Controllers
     [ApiController]
     public class ProjectsController : XpController<Project>
     {
-
         public ProjectsController(
             IRepository repository)
             : base(repository) { }
