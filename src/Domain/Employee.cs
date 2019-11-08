@@ -4,35 +4,17 @@ namespace Domain
 {
     public class Employee : Entity
     {
-        public string Name { get; set; } = string.Empty;
-        public Guid WalletId { get; set; }
-        public Guid OrganizationId { get; set; }
+        public string Employer { get; set; }
+        public string PublicKey { get; set; }
+        public string Designation { get; set; }
+        public DateTime StartDate { get; set; }
 
-        //private Employee()
-        //{
-
-        //}
-
-        //public Employee(
-        //    Guid walletId,
-        //    Guid organizationId,
-        //    Metadata meta) : base(meta)
-        //{
-        //    WalletId = walletId;
-        //    OrganizationId = organizationId;
-        //}
-
-        //public Employee(
-        //    string name,
-        //    Guid walletId,
-        //    Guid organizationId,
-        //    Metadata meta) : base(meta)
-        //{
-        //    Name = name;
-        //    WalletId = walletId;
-        //    OrganizationId = organizationId;
-        //}
-
-
+        /// <summary>
+        /// Identification Signature is Generated using the Employee's
+        /// Personal Information (name, birth date, identification number)
+        /// serialized as: NAME_YYYYMMDD_IDENTIFICATION,
+        /// and signed using employee's private key
+        /// </summary>
+        public string IdentificationSignature { get; set; }
     }
 }

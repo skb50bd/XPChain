@@ -9,7 +9,7 @@ namespace Core.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PiecesOfWorkController : XpController<PieceOfWork>
+    public class PiecesOfWorkController : XpController<UnitOfWork>
     {
 
         public PiecesOfWorkController(

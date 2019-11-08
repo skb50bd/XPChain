@@ -31,7 +31,8 @@ namespace Core
                 Configuration.GetSection("LiteSettings"));
 
             services.ConfigureData(Configuration);
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(
+                         options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddSwaggerGen(c =>

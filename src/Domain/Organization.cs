@@ -4,25 +4,10 @@ namespace Domain
 {
     public class Organization : Entity
     {
-        public Guid Owner { get; set; }
-        public string Name { get; set; }
-        public decimal Balance { get; set; }
-
-
-        //private Organization()
-        //{
-        //    Name = string.Empty;
-        //}
-
-        //public Organization(
-        //    Guid owner, 
-        //    string name, 
-        //    decimal balance,
-        //    Metadata meta) : base(meta)
-        //{
-        //    Owner = owner;
-        //    Name = name;
-        //    Balance = balance;
-        //}
+        public string PublicKey { get; set; }
+        public string Title { get; set; }
+        public string Address { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
     }
 }
