@@ -12,7 +12,7 @@
         /// <summary>
         /// Total Reward for the Project
         /// </summary>
-        public decimal Reward { get; set; }
+        public decimal TotalExperiencePoints { get; set; }
 
         /// <summary>
         /// Any information related to the Project

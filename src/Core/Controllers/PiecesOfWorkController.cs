@@ -1,18 +1,15 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Data.Persistence;
+﻿using Data.Persistence;
 using Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PiecesOfWorkController : XpController<UnitOfWork>
+    public class UnitOfWorkController : XpController<UnitOfWork>
     {
 
-        public PiecesOfWorkController(
+        public UnitOfWorkController(
             IRepository repository)
             : base(repository) { }
     }

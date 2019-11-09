@@ -23,6 +23,6 @@ namespace Domain
         /// <summary>
         /// Reward for the Unit-of-Work
         /// </summary>
-        public decimal Reward { get; set; }
+        public decimal ExperiencePoint { get; set; }
     }
 }

@@ -1,68 +1,40 @@
-﻿using Crypto;
+﻿using Brotal.Extensions;
+using Newtonsoft.Json;
 using System;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Brotal.Extensions;
+using LiteDB;
 
 namespace Domain
 {
-    public class Block<T> where T : Entity
+    public class Block
     {
-        public string Id { get; private set; }
-        public DateTime LocalCreatedAt { get; set; }
-        public string PreviousBlockId { get; set; }
+        public ObjectId Id { get; set; }
+        public string Hash { get; set; }
+        public string PreviousBlockHash { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public string Signature { get; private set; }
+        public string Signature { get; set; }
 
         /// <summary>
         /// Public Key of the Originator
         /// </summary>
         public string Originator { get; set; }
-        public T Data { get; set; }
-        public string Type => typeof(T).Name;
+        public string Data { get; set; }
+        public string Type { get; set; }
 
         [JsonIgnore]
-        public string GetPayload =>
+        public string Payload =>
             CreatedAt.Timestamp() +
-            Originator            +
-            Type                  +
-            JsonSerializer.Serialize(Data);
+            Originator +
+            Type +
+            Data;
 
         [JsonIgnore]
-        public string GetContentForBlockHashing =>
-            PreviousBlockId                +
-            CreatedAt.Timestamp()          +
-            Originator                     +
-            Type                           +
-            JsonSerializer.Serialize(Data) +
+        public string ContentForBlockHashing =>
+            PreviousBlockHash +
+            CreatedAt.ToLongDateString() +
+            Originator +
+            Type +
+            Data +
             Signature;
-
-
-        public string Sign(string signatureKey)
-        {
-            var inputBytes = Encoding.UTF8.GetBytes(GetPayload);
-            Signature = SignatureProvider.GetSignature(inputBytes, signatureKey);
-            return Signature;
-        }
-
-
-        public string SetId()
-        {
-            var bytesToHash = Encoding.UTF8.GetBytes(GetContentForBlockHashing);
-            using var hasher = SHA256.Create();
-            var hashBytes = hasher.ComputeHash(bytesToHash);
-
-            Id = Convert.ToBase64String(hashBytes);
-            return Id;
-        }
-
-        public string ToJson()
-        {
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            return JsonSerializer.Serialize(this, options);
-        }
     }
 }

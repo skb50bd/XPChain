@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Data.Persistence;
 using Data;
+using Domain;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -31,7 +32,7 @@ namespace Core
                 Configuration.GetSection("LiteSettings"));
 
             services.ConfigureData(Configuration);
-            services.AddDefaultIdentity<IdentityUser>(
+            services.AddDefaultIdentity<ApplicationUser>(
                          options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<AppDbContext>();
 

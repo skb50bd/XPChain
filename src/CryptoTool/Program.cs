@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Crypto;
+using System;
 using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using Crypto;
 
 namespace CryptoTool
 {
@@ -10,21 +8,17 @@ namespace CryptoTool
     {
         static void Main()
         {
-            const string menu = @"
-Welcome to XPChain Crypto Tool
-______________________________
-
-This helps you locally perform small tasks.
-Choose from the Menu:
-
-1. Generate Public-Private Key Pair
-2. Generate Signature
-3. Verify Signature
-            ";
-
-            Console.WriteLine(menu);
+            Console.WriteLine("Welcome to XPChain Crypto Tool");
+            Console.WriteLine("______________________________\n");
+            Console.WriteLine("This helps you locally perform simple cryptographic tasks.");
+            Console.WriteLine("Choose from the Menu:");
+            Console.WriteLine("1. Generate Public-Private Key Pair");
+            Console.WriteLine("2. Generate Signature");
+            Console.WriteLine("3. Verify Signature\n");
             Console.Write("Enter your choice: ");
+
             var answer = Console.ReadLine();
+
             if (int.TryParse(answer, out var choice))
             {
                 switch (choice)
@@ -37,39 +31,42 @@ Choose from the Menu:
                         Console.Write("Export to Text File? (Y/n): ");
                         if (Console.ReadLine()?.ToLower() != "n")
                         {
-                            File.WriteAllLines("Keys.txt", new []
-                            {
-                                "Public Key: ", keyPair.PublicKey,
-                                "\nPrivate Key: ", keyPair.PrivateKey
-                            });
+                            File.WriteAllLines("Keys.txt",
+                                new[] {
+                                    "Public Key: ",
+                                    keyPair.PublicKey,
+                                    "\nPrivate Key: ",
+                                    keyPair.PrivateKey
+                                });
+                            Console.WriteLine("Keys.txt Saved.");
                         }
                         break;
 
                     case 2:
                         Console.Write("Message: ");
-                        var data = Encoding.UTF8.GetBytes(Console.ReadLine());
+                        var data = Console.ReadLine();
 
                         Console.Write("Private Key: ");
                         var privateKey = Console.ReadLine();
 
-                        var sign  = SignatureProvider.GetSignature(data, privateKey);
+                        var sign = SignatureProvider.GetSignature(data, privateKey);
                         Console.WriteLine($"\nSignature: {sign}\n\n\n");
                         break;
 
                     case 3:
                         Console.Write("Message: ");
-                        var text = Encoding.UTF8.GetBytes(Console.ReadLine());
+                        var text = Console.ReadLine();
 
                         Console.Write("Signature: ");
-                        var signature = Convert.FromBase64String(Console.ReadLine());
-                        
+                        var signature = Console.ReadLine();
+
                         Console.Write("Public Key: ");
                         var publicKey = Console.ReadLine();
-                        var isValid =
-                            SignatureProvider.Verify(text, signature, publicKey);
+                        var isValid = SignatureProvider.Verify(text, signature, publicKey);
+
                         Console.WriteLine($"Is Valid: {isValid}");
                         break;
-                    
+
                     default:
                         Console.WriteLine("Invalid Input. Exiting...");
                         break;

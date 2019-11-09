@@ -9,12 +9,13 @@ namespace Crypto
             this RSACryptoServiceProvider rsa,
             bool includePrivateParameters)
         {
-            var parameters = rsa.ExportParameters(includePrivateParameters);
-
-            return JsonConvert.SerializeObject(parameters, new JsonSerializerSettings
+            var settings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
-            });
+            };
+            var parameters = rsa.ExportParameters(includePrivateParameters);
+
+            return JsonConvert.SerializeObject(parameters, settings);
         }
 
         public static void FromJson(
