@@ -69,3 +69,18 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.input-card {
+    max-width: 45rem;
+}
+.details-card {
+    max-width: 45rem;
+}
+
+td {
+    white-space: normal !important; 
+    word-wrap: break-word;  
+}
+table {
+    table-layout: fixed;
+}

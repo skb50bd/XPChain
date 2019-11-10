@@ -33,7 +33,13 @@ namespace Core
 
             services.ConfigureData(Configuration);
             services.AddDefaultIdentity<ApplicationUser>(
-                         options => options.SignIn.RequireConfirmedAccount = true)
+                         options =>
+                         {
+                             options.SignIn.RequireConfirmedAccount = false;
+                             options.SignIn.RequireConfirmedEmail = false;
+                             options.SignIn.RequireConfirmedPhoneNumber = false;
+                         })
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddSwaggerGen(c =>
@@ -52,7 +58,11 @@ namespace Core
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app, 
+            IWebHostEnvironment env,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -87,6 +97,8 @@ namespace Core
             {
                 endpoints.MapRazorPages();
             });
+
+            SeedUsers.Seed(roleManager, userManager).Wait();
         }
     }
 }

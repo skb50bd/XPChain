@@ -1,0 +1,58 @@
+﻿@page 
+@using Brotal.Extensions
+@model Core.Areas.Local.Pages.Employees.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="display-4">
+                        Local Employees
+                    </h1>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a  asp-page="./Create"
+                        class="btn btn-primary text-white">Add New</a>
+                </div>
+            </div>
+        </div>  
+        <div class="card-text">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        @*<th>ID</th>*@
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Designation</th>
+                        <th>Join Date</th>  
+                        <td></td>
+                    </tr>
+                </thead>  
+                <tbody>
+                @foreach (var emp in Model.Employees)
+                {
+                    var tblClass = emp.IsDeployed ? "table-success" : "table-warning";
+                    <tr class="@tblClass">
+                        @*<td>@emp.Id</td>*@
+                        <td>@emp.Name</td>
+                        <td><email>@emp.Email</email></td>
+                        <td>@emp.Designation</td>
+                        <td>@emp.StartDate.LocalDate()</td>   
+                        <td>
+                            <a asp-page="./Details"
+                               asp-route-id="@emp.Id.ToString()"
+                               class="btn btn-sm btn-success">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

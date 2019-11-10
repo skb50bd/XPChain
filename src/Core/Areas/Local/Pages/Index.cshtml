@@ -1,0 +1,15 @@
+﻿@page
+@model Core.Areas.Local.IndexModel
+@{
+    ViewData["Title"] = "Local Area";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Local Area</h1>
+        <p>
+            Records in this Area is local to the organization
+            <br/>
+            These records don't reflect the status of the XPChain
+        </p>     
+        <a asp-page="./Employees/Index" class="btn btn-primary">Employees</a>
+    </div>

@@ -10,7 +10,7 @@ namespace Core.Controllers
     {
 
         public OrganizationsController(
-            IRepository repository)
+            INodeRepository repository)
             : base(repository) { }
     }
 }

@@ -2,6 +2,7 @@
 {
     public class LiteSettings
     {
-        public string ConnectionString { get; set; }
+        public string Ledger { get; set; }
+        public string Node { get; set; }
     }
 }

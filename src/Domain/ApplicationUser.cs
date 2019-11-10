@@ -13,7 +13,7 @@ namespace Domain
         /// <summary>
         /// Legal Date of Birth
         /// </summary>
-        public DateTime DateTime { get; set; }
+        public DateTime BirthDate { get; set; }
 
         /// <summary>
         /// Social Security Number or National ID number
@@ -26,5 +26,7 @@ namespace Domain
         /// Public Key of the Employee
         /// </summary>
         public string PublicKey { get; set; }
+
+        public string VerificationSignature { get; set; }
     }
 }

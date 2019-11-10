@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using Data.Persistence;
 using Domain;
+using LiteDB;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Controllers
 {
     public abstract class XpController<T> : ControllerBase where T : Entity
     {
-        protected readonly IRepository Repository;
+        protected readonly INodeRepository Repository;
 
         protected XpController(
-            IRepository repository)
+            INodeRepository repository)
         {
             Repository = repository;
         }
@@ -24,10 +25,8 @@ namespace Core.Controllers
         }
 
         [HttpGet("{id}")]
-        public T Get(Guid id)
-        {
-            return Repository.FirstOrDefault<T>(o => o.Id == id);
-        }
+        public T Get(ObjectId id) => 
+            Repository.SingleById<T>(id);
 
         // POST: api/Organizations
         [HttpPost]

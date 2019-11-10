@@ -9,7 +9,7 @@ namespace Core.Controllers
     public class ProjectsController : XpController<Project>
     {
         public ProjectsController(
-            IRepository repository)
+            INodeRepository repository)
             : base(repository) { }
     }
 }

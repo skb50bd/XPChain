@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Domain
 {
@@ -17,6 +18,17 @@ namespace Domain
         public static T FromJson<T>(this string json)
         {
             return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        public static string IndentJson(this string json)
+        {
+            var token = JToken.Parse(json);
+            return JsonConvert.SerializeObject(json, Formatting.Indented);
+        }
+
+        public static string JsonToHtml(this string json)
+        {
+            return json.Replace("\n", "<br />");
         }
     }
 }

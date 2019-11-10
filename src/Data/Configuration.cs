@@ -10,10 +10,12 @@ namespace Data
         public static IServiceCollection ConfigureData(
             this IServiceCollection services, IConfiguration config)
         {
-            services.AddTransient<IRepository, LiteDbRepository>();
+            services.AddTransient<ILedgerRepository, LiteDbLedgerRepository>();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(
                     config.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<INodeRepository, LiteDbNodeRepository>();
 
             return services;
         }

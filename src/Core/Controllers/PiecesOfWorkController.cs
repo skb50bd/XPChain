@@ -10,7 +10,7 @@ namespace Core.Controllers
     {
 
         public UnitOfWorkController(
-            IRepository repository)
+            INodeRepository repository)
             : base(repository) { }
     }
 }

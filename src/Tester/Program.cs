@@ -3,6 +3,7 @@ using Data.Persistence;
 using Domain;
 using Newtonsoft.Json;
 using System;
+using LiteDB;
 
 namespace Tester
 {
@@ -10,13 +11,13 @@ namespace Tester
     {
         static void Main(string[] args)
         {
-            IRepository repo = new LiteDbRepository("test.db");
+            ILedgerRepository repo = new LiteDbLedgerRepository("test.db");
 
             var org1Keys = KeyPair.NewKeyPair();
             var org2Keys = KeyPair.NewKeyPair();
             var org2 = new Organization
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.NewObjectId(),
                 Title = "Brotal",
                 Address = "Dhaka, Bangladesh",
                 Email = "info@brotal.net",

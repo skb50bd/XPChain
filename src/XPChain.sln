@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto", "Crypto\Crypto.csproj", "{5DD71E29-7C24-48A3-9F78-CF06626A582C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoTool", "CryptoTool\CryptoTool.csproj", "{B49D4B46-EDD7-46C7-81C5-4DE42B36DBB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoTool", "CryptoTool\CryptoTool.csproj", "{B49D4B46-EDD7-46C7-81C5-4DE42B36DBB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{F0EA2DC3-E87E-4D71-877A-74F0CDA954EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tester", "Tester\Tester.csproj", "{F0EA2DC3-E87E-4D71-877A-74F0CDA954EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

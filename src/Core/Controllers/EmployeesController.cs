@@ -9,7 +9,7 @@ namespace Core.Controllers
     public class EmployeesController : XpController<Employee>
     {
         public EmployeesController(
-            IRepository repository) 
+            INodeRepository repository) 
             : base(repository) { }
     }
 }
