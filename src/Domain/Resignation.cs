@@ -1,4 +1,7 @@
 ﻿using System;
+using Brotal.Extensions;
+using LiteDB;
+using Newtonsoft.Json;
 
 namespace Domain
 {
@@ -15,13 +18,22 @@ namespace Domain
         public string Organization { get; set; }
 
         /// <summary>
+        /// Information related to the resignation
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
         /// Date of Resignation
         /// </summary>
         public DateTime EndDate { get; set; }
 
-        /// <summary>
-        /// Information related to the resignation
-        /// </summary>
-        public string Description { get; set; }
+        [BsonIgnore]
+        [JsonIgnore]
+        public string Payload =>
+            Employee     +
+            Organization +
+            Description  +
+            EndDate.Timestamp();
+
+        public string EmployeeSignature { get; set; }
     }
 }

@@ -1,10 +1,13 @@
-﻿using System;
+﻿using LiteDB;
+using System.Text.Json.Serialization;
 
 namespace Domain
 {
     public class UnitOfWork : Entity
     {
-        public Guid ProjectId { get; set; }
+        public string Organization { get; set; }
+        
+        public ObjectId ProjectId { get; set; }
 
         /// <summary>
         /// Public Key of the Employee that completed the Work
@@ -23,6 +26,18 @@ namespace Domain
         /// <summary>
         /// Reward for the Unit-of-Work
         /// </summary>
-        public decimal ExperiencePoint { get; set; }
+        public decimal Xp { get; set; }
+
+        [BsonIgnore]
+        [JsonIgnore]
+        public string Payload =>
+            Organization +
+            ProjectId    +
+            Executor     +
+            Tags         +
+            Xp           +
+            Description;
+
+        public string EmployeeSignature { get; set; }
     }
 }

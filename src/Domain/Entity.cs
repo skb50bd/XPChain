@@ -1,9 +1,11 @@
 ﻿using System;
+using LiteDB;
 
 namespace Domain
 {
     public abstract class Entity
     {
-        public Guid Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
     }
 }

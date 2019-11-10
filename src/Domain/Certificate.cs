@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using LiteDB;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Domain
 {
@@ -25,5 +28,10 @@ namespace Domain
         /// Any related data related to the certificate
         /// </summary>
         public string Description { get; set; }
+
+        [BsonIgnore] [JsonIgnore]
+        public string Payload => Title + Issuer + Owner + Description;
+
+        public string OwnerSignature { get; set; }
     }
 }

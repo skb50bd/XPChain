@@ -30,24 +30,15 @@ namespace Data.Persistence
             BsonMapper mapper = null)
         {
             if(mapper is null) mapper = BsonMapper.Global;
-            mapper.Entity<Block>()
-                  .Id(e => e.Id)
-                  .Ignore(e => e.ContentForBlockHashing)
-                  .Ignore(e => e.Payload);
-
             Db = new LiteDatabase(settings.CurrentValue.ConnectionString, mapper);
+            Collection.EnsureIndex(b => b.Hash);
+            Collection.EnsureIndex(b => b.PreviousBlockHash);
         }
 
         public LiteDbRepository(
             string connectionString)
         {
-            var mapper = BsonMapper.Global;
-            mapper.Entity<Block>()
-                  .Id(e => e.Id)
-                  .Ignore(e => e.ContentForBlockHashing)
-                  .Ignore(e => e.Payload);
-
-            Db = new LiteDatabase( connectionString, mapper);
+            Db = new LiteDatabase( connectionString);
         }
 
         #endregion

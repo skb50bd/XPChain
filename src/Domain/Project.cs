@@ -5,14 +5,14 @@
         /// <summary>
         /// Public Key of the Organization
         /// </summary>
-        public string Owner { get; set; }
+        public string Organization { get; set; }
 
         public string Title { get; set; }
 
         /// <summary>
         /// Total Reward for the Project
         /// </summary>
-        public decimal TotalExperiencePoints { get; set; }
+        public decimal TotalXp { get; set; }
 
         /// <summary>
         /// Any information related to the Project

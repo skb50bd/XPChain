@@ -21,14 +21,14 @@ namespace Domain
         public string Data { get; set; }
         public string Type { get; set; }
 
-        [JsonIgnore]
+        [BsonIgnore] [JsonIgnore]
         public string Payload =>
             CreatedAt.Timestamp() +
             Originator +
             Type +
             Data;
 
-        [JsonIgnore]
+        [BsonIgnore] [JsonIgnore]
         public string ContentForBlockHashing =>
             PreviousBlockHash +
             CreatedAt.ToLongDateString() +
