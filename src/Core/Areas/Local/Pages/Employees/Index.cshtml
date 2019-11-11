@@ -41,8 +41,8 @@
                         <td>@emp.Name</td>
                         <td><email>@emp.Email</email></td>
                         <td>@emp.Designation</td>
-                        <td>@emp.StartDate.LocalDate()</td>   
-                        <td>
+                        <td>@Html.DisplayFor(model => emp.StartDate)</td>   
+                        <td class="text-right">
                             <a asp-page="./Details"
                                asp-route-id="@emp.Id.ToString()"
                                class="btn btn-sm btn-success">

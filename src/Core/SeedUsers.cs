@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using Domain;
-using Microsoft.AspNetCore.Identity;
-
+﻿using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace Core
 {
@@ -11,7 +9,7 @@ namespace Core
         private const string Employee = "Employee";
         public static async Task Seed(
             RoleManager<IdentityRole> roleManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<IdentityUser> userManager)
         {
             var adminRoleExists = await roleManager.RoleExistsAsync(Admin);
             if (!adminRoleExists)
@@ -20,9 +18,8 @@ namespace Core
                 await roleManager.CreateAsync(role);
 
                 //Here we create a Admin super user who will maintain the website
-                var user = new ApplicationUser
+                var user = new IdentityUser
                 {
-                    Name = "Admin",
                     UserName = "admin",
                     Email = "admin@xpchain.com",
                     EmailConfirmed = true
@@ -48,7 +45,7 @@ namespace Core
                 await roleManager.RoleExistsAsync(Employee);
             if (!employeeRoleExists)
             {
-                var role = new IdentityRole {Name = Employee};
+                var role = new IdentityRole { Name = Employee };
                 await roleManager.CreateAsync(role);
             }
         }

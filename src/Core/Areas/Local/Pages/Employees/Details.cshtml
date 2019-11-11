@@ -1,64 +1,106 @@
 ﻿@page
+@using System.Web
 @using Domain
 @model Core.Areas.Local.Pages.Employees.DetailsModel
 @{
     ViewData["Title"] = "Local Employee";
 }
 
-
-<div class="card details-card">
+<div class="card details-card mb-2">
+    <div class="card-header">
+        Local Employee Details
+    </div>
     <div class="card-body">
-        <div class="card-subtitle">
-            Local Employee Details
-        </div>      
-
-        <div class="card-title">    
+        <div class="card-title">
             <h1 class="display-4">@Model.LocalEmployee.Name</h1>
-        </div>    
+        </div>
 
         <div class="card-text">
-            <table class="table table-hover table-borderless">
+            <table class="table table-hover">
                 <tbody>
+                    @*<tr>
+                            <th>@Html.DisplayNameFor(model => model.LocalEmployee.Id)</th>
+                            <td class="text-right">
+                                <code>
+                                    @Model.LocalEmployee.Id
+                                </code>
+                            </td>
+                        </tr>*@
+
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.Id)</th>
-                        <td class="text-right">@Model.LocalEmployee.Id</td>
-                </tr>     
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.LocalEmployee.Email)</th>
-                    <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.Email)</td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.LocalEmployee.Phone)</th>
-                    <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.Phone)</td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.LocalEmployee.Address)</th>
-                    <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.Address)</td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.LocalEmployee.Designation)</th>
-                    <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.Designation)</td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.LocalEmployee.PublicKey)</th>
-                    <td class="text-right">
-                        @Model.LocalEmployee.PublicKey
-                    </td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.LocalEmployee.BirthDate)</th>
-                    <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.BirthDate)</td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.LocalEmployee.StartDate)</th>
-                    <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.StartDate)</td>
-                </tr>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.LocalEmployee.IsDeployed)</th>
-                    <td class="text-right">@(Model.LocalEmployee.IsDeployed ? "Yes": "No")</td>
-                </tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.UserName)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.LocalEmployee.UserName
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.Email)</th>
+                        <td class="text-right">
+                            <email>@Model.LocalEmployee.Email</email>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.Phone)</th>
+                        <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.Phone)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.Address)</th>
+                        <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.Address)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.Designation)</th>
+                        <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.Designation)</td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.BirthDate)</th>
+                        <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.BirthDate)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.StartDate)</th>
+                        <td class="text-right">@Html.DisplayFor(model => model.LocalEmployee.StartDate)</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.IsDeployed)</th>
+                        <td class="text-right">@(Model.LocalEmployee.IsDeployed ? "Yes" : "No")</td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.IdentificationNumber)</th>
+                        <td class="text-right">
+                            <code>@Model.LocalEmployee.IdentificationNumber</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.PublicKey)</th>
+                        <td class="text-right">
+                            <code>@Model.LocalEmployee.PublicKey</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.LocalEmployee.VerificationSignature)</th>
+                        <td class="text-right">
+                            <code>@Model.LocalEmployee.VerificationSignature</code>
+                        </td>
+                    </tr>
                 </tbody>
-            </table>                                    
+            </table>
         </div>
     </div>
+
+    @if (Model.IsAdmin && !Model.LocalEmployee.IsDeployed)
+    {
+        <div class="card-footer text-right">
+            <a class="btn btn-primary text-white">
+                Deploy
+            </a>
+        </div>
+    }
 </div>
+
+<a asp-page="./Index"
+   class="btn btn-secondary">
+    Back to Index
+</a>

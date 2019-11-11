@@ -20,15 +20,12 @@ namespace Domain
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public static string IndentJson(this string json)
-        {
-            var token = JToken.Parse(json);
-            return JsonConvert.SerializeObject(json, Formatting.Indented);
-        }
+        public static string IndentJson(this string json) =>
+            JToken.Parse(json).ToString(Formatting.Indented);
 
         public static string JsonToHtml(this string json)
         {
-            return json.Replace("\n", "<br />");
+            return json.Replace("\n", "<br />").Replace(" ", "&nbsp;");
         }
     }
 }

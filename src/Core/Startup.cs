@@ -32,7 +32,7 @@ namespace Core
                 Configuration.GetSection("LiteSettings"));
 
             services.ConfigureData(Configuration);
-            services.AddDefaultIdentity<ApplicationUser>(
+            services.AddDefaultIdentity<IdentityUser>(
                          options =>
                          {
                              options.SignIn.RequireConfirmedAccount = false;
@@ -61,7 +61,7 @@ namespace Core
         public void Configure(
             IApplicationBuilder app, 
             IWebHostEnvironment env,
-            UserManager<ApplicationUser> userManager,
+            UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())

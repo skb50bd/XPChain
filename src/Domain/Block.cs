@@ -28,13 +28,14 @@ namespace Domain
             Type +
             Data;
 
-        [BsonIgnore] [JsonIgnore]
+        [BsonIgnore]
+        [JsonIgnore]
         public string ContentForBlockHashing =>
-            PreviousBlockHash +
+            PreviousBlockHash            +
             CreatedAt.ToLongDateString() +
-            Originator +
-            Type +
-            Data +
+            Originator                   +
+            Type                         +
+            Data                         +
             Signature;
     }
 }

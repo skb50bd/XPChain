@@ -1,22 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Data.Persistence;
+﻿using Data.Persistence;
 using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Core.Areas.Local.Pages.Employees
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly INodeRepository _repository;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CreateModel(INodeRepository repository)
+        public CreateModel(
+            INodeRepository repository,
+            UserManager<IdentityUser> userManager)
         {
             _repository = repository;
+            _userManager = userManager;
         }
 
         public void OnGet()
@@ -24,33 +29,51 @@ namespace Core.Areas.Local.Pages.Employees
 
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
 
-            var emp = new LocalEmployee
+            var user = new IdentityUser
             {
-                Name = Input.Name,
+                UserName = Input.Username,
                 Email = Input.Email,
-                Phone = Input.Phone,
-                Address = Input.Address,
-                Designation = Input.Designation,
-                PublicKey = Input.PublicKey,
-                BirthDate = Input.BirthDate,
-                StartDate = Input.StartDate
+                EmailConfirmed = true
             };
+            const string password = "User#123";
 
-            _repository.Insert(emp);
+            var res = await _userManager.CreateAsync(user, password);
+            if (res.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "Employee");
+                var emp = new LocalEmployee
+                {
+                    UserName             = user.UserName,
+                    Name                 = Input.Name,
+                    Email                = Input.Email,
+                    Phone                = Input.Phone,
+                    Address              = Input.Address,
+                    Designation          = Input.Designation,
+                    BirthDate            = Input.BirthDate,
+                    StartDate            = Input.StartDate,
+                    PublicKey            = Input.PublicKey,
+                    IdentificationNumber = Input.IdentificationNumber
+                };
+                _repository.Insert(emp);
+                return RedirectToPage("./Index");
+            }
 
-            return RedirectToPage("./Index");
+            return BadRequest(res.Errors);
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
     }
+    
     public class InputModel
     {
+        public string Username { get; set; }
+
         public string Name { get; set; }
 
         [EmailAddress]
@@ -72,5 +95,8 @@ namespace Core.Areas.Local.Pages.Employees
         [DataType(DataType.Date)]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
+
+        [Display(Name = "ID#")]
+        public string IdentificationNumber { get; set; }
     }
 }
