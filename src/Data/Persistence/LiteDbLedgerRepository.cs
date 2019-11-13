@@ -76,12 +76,8 @@ namespace Data.Persistence
             
             if(item.PreviousBlockHash != lastBlockHash) 
                 throw new HashMismatchException();
-
-            if (item.Hash is null) item.SetHash();
             
             if (!item.Validate()) throw new InvalidBlockException();
-            
-            if (item.Signature is null) throw new BlockNotSignedException();
 
             var id = Collection.Insert(item);
             return GetById(id);

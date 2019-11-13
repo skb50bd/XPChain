@@ -88,11 +88,10 @@ namespace Core.Areas.Local.Pages.Employees
             block.Sign(_orgOptions.PrivateKey);
             block.SetHash();
 
-            //if (!block.Validate()) 
-            //    return BadRequest("Block Validation Failed");
-            
             _ledger.Insert(block);
-            return RedirectToPage("Employees/Details",
+            LocalEmployee.IsDeployed = true;
+            _repository.Update(LocalEmployee);
+            return RedirectToPage("/Employees/Details",
                 new {id = block.Id, area = "Chain"});
         }
 

@@ -1,4 +1,4 @@
-﻿@page "{hander?}"
+﻿@page "{handler?}"
 @model Core.Areas.Local.Pages.Employees.DetailsModel
 @{
     ViewData["Title"] = "Local Employee";
@@ -129,7 +129,7 @@
                 {
                     if (Model.LocalEmployee.IsReadyToDeploy)
                     {
-                        <form method="post"
+                        <form method="post"      
                               asp-page-handler="deploy"
                               asp-route-id="@Model.LocalEmployee.Id">
                             <button class="btn btn-primary">Deploy</button>

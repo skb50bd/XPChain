@@ -1,18 +1,20 @@
 ﻿using Crypto;
-using System;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Domain
 {
     public static class BlockExtensions
     {
-        public static string GenerateSignature(this Block block, string signatureKey)
-        {
-            return SignatureProvider.GetSignature(block.Payload, signatureKey);
-        }
+        public static string GenerateSignature(
+            this Block block, 
+            string signatureKey) =>
+            SignatureProvider.GetSignature(
+                block.Payload, 
+                signatureKey);
 
-        public static Block Sign(this Block block, string signatureKey)
+        public static Block Sign(
+            this Block block, 
+            string signatureKey)
         {
             block.Signature = block.GenerateSignature(signatureKey);
             return block;
@@ -33,11 +35,12 @@ namespace Domain
             return block;
         }
 
-        public static bool VerifySignature(this Block block) =>
-        SignatureProvider.Verify(
-            block.Payload,
-            block.Signature,
-            block.Originator);
+        public static bool VerifySignature(
+            this Block block) =>
+            SignatureProvider.Verify(
+                block.Payload,
+                block.Signature,
+                block.Originator);
 
         public static bool VerifyHash(this Block block) =>
             block.Hash == block.CalculateHash();
@@ -66,7 +69,7 @@ namespace Domain
                     employee.Payload,
                     employee.EmployeeSignature,
                     employee.PublicKey);
-                
+
                 if (!isSameOriginator || !isValidSignature) return false;
             }
             else if (block.Type == typeof(Organization).Name)
