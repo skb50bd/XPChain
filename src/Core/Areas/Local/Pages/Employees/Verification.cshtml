@@ -1,0 +1,105 @@
+@page
+@model Core.Areas.Local.Pages.Employees.VerificationModel
+@{
+    ViewData["Title"] = "Employee Verification";
+}
+
+<div class="card details-card mb-2">
+    <div class="card-header">
+        Verify Employee Identity
+    </div>
+    <div class="card-body">
+        <div class="card-title">
+            <h1 class="display-4">
+                @Model.LocalEmployee.Name
+            </h1>
+        </div>
+
+        <div class="card-text">
+            <form method="post">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">
+                        Username
+                    </label>
+
+                    <div class="col-sm-9">
+                        <code>
+                            @Model.LocalEmployee.UserName
+                        </code>
+                    </div>
+                </div>
+                     
+                @*<div class="form-group row">
+                    <label class="col-sm-3 col-form-label">
+                        Public Key
+                    </label>
+
+                    <div class="col-sm-9">
+                        <code>
+                            @Model.LocalEmployee.PublicKey
+                        </code>
+                    </div>
+                </div>*@
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">
+                        Identification Message
+                    </label>
+
+                    <div class="col-sm-9">
+                        <code>
+                            @Model.LocalEmployee.IdentificationMessage
+                        </code>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Input.IdentificationSignature"
+                           class="col-sm-3 col-form-label">
+                    </label>
+
+                    <div class="col-sm-9">
+                        <textarea asp-for="Input.IdentificationSignature"
+                               class="form-control"> 
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">
+                        Verification Message
+                    </label>
+
+                    <div class="col-sm-9">
+                        <code>
+                            @Model.VerificationPayload
+                        </code>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Input.VerificationSignature"
+                           class="col-sm-3 col-form-label">
+                    </label>
+
+                    <div class="col-sm-9">
+                        <textarea asp-for="Input.VerificationSignature"
+                                  class="form-control">
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">
+                    </label>
+
+                    <div class="col-sm-9">
+                        <input type="submit"
+                               class="btn btn-primary" value="Save">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

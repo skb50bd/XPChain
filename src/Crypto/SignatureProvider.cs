@@ -29,7 +29,9 @@ namespace Crypto
         /// <param name="privateKey">RSA private key as JSON string</param>
         /// <returns>Signature as base64 string</returns>
         public static string GetSignature(string data, string privateKey) => 
-            GetSignature(Encoding.UTF8.GetBytes(data), privateKey);
+            GetSignature(
+                Encoding.UTF8.GetBytes(data?.Trim() ?? ""), 
+                privateKey?.Trim());
 
         /// <summary>
         /// Verify if a RSA Signature is valid against the data and public key
@@ -46,7 +48,9 @@ namespace Crypto
             using var rsa = new RSACryptoServiceProvider();
             rsa.FromJson(publicKey);
 
-            return rsa.VerifyData(plainText, new SHA1CryptoServiceProvider(), signature);
+            return rsa.VerifyData(
+                plainText, 
+                new SHA1CryptoServiceProvider(), signature);
         }
 
 
@@ -61,9 +65,9 @@ namespace Crypto
             string signature,
             string publicKey) =>
             Verify(
-                Encoding.UTF8.GetBytes(plainText),
-                Convert.FromBase64String(signature), 
-                publicKey
+                Encoding.UTF8.GetBytes(plainText?.Trim() ?? ""),
+                Convert.FromBase64String(signature?.Trim() ?? ""), 
+                publicKey?.Trim() ?? ""
             );
     }
 }

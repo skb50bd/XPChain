@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Crypto;
 using LiteDB;
 
 namespace Domain
@@ -42,17 +43,48 @@ namespace Domain
         [JsonIgnore]
         [BsonIgnore]
         [Display(Name = "Verification Message")]
-        public string VerificationMessage =>
+        public string IdentificationMessage =>
             (Name.ToUpperInvariant()        +
              " "                            +
              BirthDate.ToString("yyyyMMdd") +
              " "                            +
-             IdentificationNumber).Replace(" ", "_");
+             IdentificationNumber)
+           .Replace(" ", "_")
+           .ToBase64();
+
+        [Display(Name = "Identification Signature")]
+        public string IdentificationSignature { get; set; }
 
         [Display(Name = "Verification Signature")]
         public string VerificationSignature { get; set; }
 
         [Display(Name = "Deployed to XPChain")]
         public bool IsDeployed { get; set; }
+
+        [JsonIgnore]
+        [BsonIgnore]
+        public bool IsReadyToDeploy =>
+            !string.IsNullOrWhiteSpace(IdentificationSignature)
+         && !string.IsNullOrWhiteSpace(VerificationSignature);
+    }
+
+    public static class LocalEmployeeExtensions
+    {
+        public static string GetVerificationMessage(
+            this LocalEmployee emp,
+            string             orgPublicKey) =>
+            (orgPublicKey    +
+             emp.PublicKey   +
+             emp.Designation +
+             emp.StartDate.TimeStamp()).ToBase64();
+
+        public static bool Verify(
+            this LocalEmployee emp,
+            string             orgPublicKey,
+            string             signature) =>
+            SignatureProvider.Verify(
+                emp.GetVerificationMessage(orgPublicKey),
+                signature,
+                emp.PublicKey);
     }
 }

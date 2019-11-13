@@ -1,0 +1,17 @@
+﻿@page
+@model Core.Areas.Chain.IndexModel
+@{
+    ViewData["Title"] = "XPChain Area";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Blockchain Area</h1>
+        <p>
+            Records in this Area is synchronized among XPChain Nodes
+            <br />
+            These records reflect the status of the XPChain
+        </p>
+        <a asp-page="./Employees/Index" class="btn btn-primary mb-2">Employees</a>  
+        <br/>
+        <a asp-page="./Projects/Index" class="btn btn-primary mb-2">Projects</a>
+    </div>

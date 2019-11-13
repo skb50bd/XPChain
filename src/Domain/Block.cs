@@ -1,5 +1,4 @@
-﻿using Brotal.Extensions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using LiteDB;
 
@@ -23,7 +22,7 @@ namespace Domain
 
         [BsonIgnore] [JsonIgnore]
         public string Payload =>
-            CreatedAt.Timestamp() +
+            CreatedAt.TimeStamp() +
             Originator +
             Type +
             Data;

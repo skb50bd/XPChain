@@ -1,4 +1,4 @@
-﻿@page "{hander?}"
+﻿@page
 @model Core.Areas.Local.Pages.Employees.DetailsModel
 @{
     ViewData["Title"] = "Local Employee";
@@ -127,18 +127,10 @@
 
                 @if (Model.IsAdmin && !Model.LocalEmployee.IsDeployed)
                 {
-                    if (Model.LocalEmployee.IsReadyToDeploy)
-                    {
-                        <form method="post"
-                              asp-page-handler="deploy"
-                              asp-route-id="@Model.LocalEmployee.Id">
-                            <button class="btn btn-primary">Deploy</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <span class="text-info">Pending Verification</span>
-                    }
+                    // Todo - Add Deployment Link
+                    <a class="btn btn-primary text-white">
+                        Deploy
+                    </a>
                 }
             </div>
         </div>

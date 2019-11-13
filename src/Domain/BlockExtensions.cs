@@ -20,11 +20,11 @@ namespace Domain
 
         public static string CalculateHash(this Block block)
         {
-            var bytesToHash = Encoding.UTF8.GetBytes(block.ContentForBlockHashing);
+            var bytesToHash = block.ContentForBlockHashing.ToByteArray();
             using var hasher = SHA256.Create();
             var hashBytes = hasher.ComputeHash(bytesToHash);
 
-            return Convert.ToBase64String(hashBytes);
+            return hashBytes.ToBase64();
         }
 
         public static Block SetHash(this Block block)
@@ -60,13 +60,14 @@ namespace Domain
             else if (block.Type == typeof(Employee).Name)
             {
                 var employee = block.Data.FromJson<Employee>();
-                var isValid =
-                    block.Originator == employee.Organization
-                 && SignatureProvider.Verify(
-                        employee.Payload,
-                        employee.EmployeeSignature,
-                        employee.PublicKey);
-                if (!isValid) return false;
+                var isSameOriginator =
+                    block.Originator == employee.Organization;
+                var isValidSignature = SignatureProvider.Verify(
+                    employee.Payload,
+                    employee.EmployeeSignature,
+                    employee.PublicKey);
+                
+                if (!isSameOriginator || !isValidSignature) return false;
             }
             else if (block.Type == typeof(Organization).Name)
             {

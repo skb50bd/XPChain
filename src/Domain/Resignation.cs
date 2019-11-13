@@ -1,5 +1,4 @@
 ﻿using System;
-using Brotal.Extensions;
 using LiteDB;
 using Newtonsoft.Json;
 
@@ -32,7 +31,7 @@ namespace Domain
             Employee     +
             Organization +
             Description  +
-            EndDate.Timestamp();
+            EndDate.TimeStamp();
 
         public string EmployeeSignature { get; set; }
     }

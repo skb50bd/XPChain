@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 namespace Core.TagHelpers {
-    public class EmailTagHelper : TagHelper
+    public class Email : TagHelper
     {
         public override async Task ProcessAsync(
             TagHelperContext context,
@@ -15,7 +15,7 @@ namespace Core.TagHelpers {
         }
     }
 
-    public class TelTagHelper : TagHelper
+    public class Tel : TagHelper
     {
         public override async Task ProcessAsync(
             TagHelperContext context,
@@ -28,7 +28,7 @@ namespace Core.TagHelpers {
         }
     }
 
-    public class UrlTagHelper : TagHelper
+    public class Url : TagHelper
     {
         public override async Task ProcessAsync(
             TagHelperContext context,

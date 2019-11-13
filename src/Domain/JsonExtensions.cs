@@ -25,7 +25,8 @@ namespace Domain
 
         public static string JsonToHtml(this string json)
         {
-            return json.Replace("\n", "<br />").Replace(" ", "&nbsp;");
+            return json.Replace("\n", "<br />")
+                       .Replace(" ", "&nbsp;");
         }
     }
 }

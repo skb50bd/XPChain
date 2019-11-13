@@ -1,5 +1,4 @@
 ﻿using System;
-using Brotal.Extensions;
 using LiteDB;
 using Newtonsoft.Json;
 
@@ -7,18 +6,34 @@ namespace Domain
 {
     public class Employee : Entity
     {
+        /// <summary>
+        /// Public Key of Employer Organization
+        /// </summary>
         public string Organization { get; set; }
+
+        /// <summary>
+        /// Public Key of the Employee
+        /// </summary>
         public string PublicKey { get; set; }
+
+        /// <summary>
+        /// Designation of the Employee
+        /// </summary>
         public string Designation { get; set; }
+
+        /// <summary>
+        /// Joining Date of the Employee
+        /// </summary>
         public DateTime StartDate { get; set; }
 
         [BsonIgnore]
         [JsonIgnore]
         public string Payload =>
-            Organization +
-            PublicKey    +
-            Designation  +
-            StartDate.Timestamp();
+            (Organization +
+             PublicKey    +
+             Designation  +
+             StartDate.TimeStamp()).ToBase64();
+
         public string EmployeeSignature { get; set; }
 
         /// <summary>

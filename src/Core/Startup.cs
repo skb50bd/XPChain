@@ -55,11 +55,13 @@ namespace Core
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            services.Configure<OrganizationOptions>(Configuration.GetSection("Organization"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
+            IApplicationBuilder app,
             IWebHostEnvironment env,
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager)

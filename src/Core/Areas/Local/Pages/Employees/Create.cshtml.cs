@@ -24,11 +24,6 @@ namespace Core.Areas.Local.Pages.Employees
             _userManager = userManager;
         }
 
-        public void OnGet()
-        {
-
-        }
-
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

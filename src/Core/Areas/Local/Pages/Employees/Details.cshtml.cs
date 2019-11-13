@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Core.Areas.Local.Pages.Employees
 {
@@ -13,17 +14,24 @@ namespace Core.Areas.Local.Pages.Employees
     public class DetailsModel : PageModel
     {
         private readonly INodeRepository _repository;
+        private readonly ILedgerRepository _ledger;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly OrganizationOptions _orgOptions;
 
         public DetailsModel(
             INodeRepository repository,
-            UserManager<IdentityUser> userManager)
+            ILedgerRepository ledger,
+            UserManager<IdentityUser> userManager,
+            IOptionsMonitor<OrganizationOptions> orgOptions) 
         {
             _repository = repository;
             _userManager = userManager;
+            _ledger = ledger;
+            _orgOptions = orgOptions.CurrentValue;
         }
 
-        public bool IsEmployee { get; set; }
+        public LocalEmployee LocalEmployee { get; set; }
+        public bool IsCorrectEmployee { get; set; }
         public bool IsAdmin { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -37,16 +45,60 @@ namespace Core.Areas.Local.Pages.Employees
             if (!IsAdmin)
             {
                 if (user.UserName == LocalEmployee.UserName)
-                    IsEmployee = true;
+                    IsCorrectEmployee = true;
             }
 
-            if (!IsAdmin && !IsEmployee)
+            if (!IsAdmin && !IsCorrectEmployee)
                 return Unauthorized();
-            else return Page();
+            return Page();
         }
 
+        public async Task<IActionResult> OnPostDeployAsync(string id)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            IsAdmin = await _userManager.IsInRoleAsync(user, "Admin");
 
-        [BindProperty]
-        public LocalEmployee LocalEmployee { get; set; }
+            if (!IsAdmin)
+                return Unauthorized();
+
+            var objId = new ObjectId(id);
+            LocalEmployee = _repository.SingleById<LocalEmployee>(objId);
+
+            var employee = new Employee
+            {
+                Id                      = LocalEmployee.Id,
+                Organization            = _orgOptions.PublicKey,
+                PublicKey               = LocalEmployee.PublicKey,
+                Designation             = LocalEmployee.Designation,
+                StartDate               = LocalEmployee.StartDate,
+                EmployeeSignature       = LocalEmployee.VerificationSignature,
+                IdentificationSignature = LocalEmployee.IdentificationSignature
+            };
+
+            var prevHash = _ledger.GetLastBlockHash();
+
+            var block = new Block
+            {
+                Id = ObjectId.NewObjectId(),
+                PreviousBlockHash = prevHash,
+                Originator = _orgOptions.PublicKey,
+                Data = employee.ToJson(),
+                Type = typeof(Employee).Name
+            };
+            block.Sign(_orgOptions.PrivateKey);
+            block.SetHash();
+
+            //if (!block.Validate()) 
+            //    return BadRequest("Block Validation Failed");
+            
+            _ledger.Insert(block);
+            return RedirectToPage("Employees/Details",
+                new {id = block.Id, area = "Chain"});
+        }
+
+        public bool Verify() =>
+            LocalEmployee.Verify(
+                _orgOptions.PublicKey,
+                LocalEmployee.VerificationSignature);
     }
 }

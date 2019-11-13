@@ -1,9 +1,9 @@
-﻿using LiteDB;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using LiteDB;
 
 namespace Domain
 {
-    public class UnitOfWork : Entity
+    public class LocalUnitOfWork : Entity
     {
         /// <summary>
         /// Public Key of the Organization
@@ -23,16 +23,12 @@ namespace Domain
         /// </summary>
         public string Tags { get; set; }
 
-
-        public string Description { get; set; }
-
         /// <summary>
         /// Reward for the Unit-of-Work
         /// </summary>
         public decimal Xp { get; set; }
-
-        [BsonIgnore]
-        [JsonIgnore]
+        public string Description { get; set; }
+        
         public string Payload =>
             (Organization +
              ProjectId    +
