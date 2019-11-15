@@ -1,0 +1,143 @@
+﻿@page "{handler?}"
+@model Core.Areas.Local.Pages.UnitsOfWork.DetailsModel
+@{
+    ViewData["Title"] = "Unit of Work";
+}
+
+<div class="card details-card mb-2">
+    <div class="card-header">
+        Unit of Work Details
+    </div>
+    <div class="card-body">
+        <div class="card-title">
+            <h1 class="display-4">@Model.LocalEmployee.Name</h1>
+        </div>
+
+        <div class="card-text">
+            <table class="table table-sm table-striped table-hover">
+                <tbody>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.ProjectId)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.UnitOfWork.ProjectId
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Project.Title)</th>
+                        <td class="text-right">
+                            @Model.Project.Title
+                        </td>
+                    </tr>
+                    
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.UnitOfWork.ExecutorId)</th>
+                    <td class="text-right">
+                        <code>
+                            @Model.UnitOfWork.ExecutorId
+                        </code>
+                    </td>
+                </tr>
+
+                <tr>
+                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.ExecutorPublicKey)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.UnitOfWork.ExecutorPublicKey
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Tags)</th>
+                        <td class="text-right">
+                            @Model.UnitOfWork.Tags
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Xp)</th>
+                        <td class="text-right">
+                            @Model.UnitOfWork.Xp
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Description)</th>
+                        <td class="text-right">
+                            @Html.DisplayFor(model => model.UnitOfWork.Description)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.EmployeeSignature)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.UnitOfWork.EmployeeSignature
+                            </code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.IsDeployed)</th>
+                        <td class="text-right">@(Model.UnitOfWork.IsDeployed ? "Yes" : "No")</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        @{
+            var api =
+                Url.ActionLink(
+                    "Delete",
+                    "UnitsOfWork",
+                    new { Model.UnitOfWork.Id, area = "" });
+
+            var returnUrl = Url.Page("./Index");
+        }
+        @api
+        <div class="row">
+            <div class="col-6">
+                @if (Model.IsAdmin)
+                {
+                    <a href="#"
+                       class="btn btn-danger text-white js-remove-item"
+                       data-href="@api"
+                       data-returnUrl="@returnUrl">
+                        Delete
+                    </a>
+                }
+            </div>
+
+            <div class="col-6 text-right">
+                @if (Model.IsCorrectEmployee)
+                {
+                    <a asp-page="./Verification" asp-route-id="@Model.UnitOfWork.Id.ToString()"
+                       class="btn btn-primary text-white">
+                        Verify
+                    </a>
+                }
+
+                @if (Model.IsAdmin && !Model.LocalEmployee.IsDeployed)
+                {
+                    if (Model.UnitOfWork.IsReadyToDeploy)
+                    {
+                        <form method="post"
+                              asp-page-handler="deploy"
+                              asp-route-id="@Model.LocalEmployee.Id">
+                            <button class="btn btn-primary">Deploy</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-info">Pending Verification</span>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<a asp-page="./Index"
+   class="btn btn-secondary">
+    Back to Index
+</a>

@@ -41,7 +41,7 @@
             this.genSig.Name = "genSig";
             this.genSig.Size = new System.Drawing.Size(199, 58);
             this.genSig.TabIndex = 0;
-            this.genSig.Text = "Generate Signatures";
+            this.genSig.Text = "Generate Keys";
             this.genSig.UseVisualStyleBackColor = true;
             this.genSig.Click += new System.EventHandler(this.genSig_Click);
             // 

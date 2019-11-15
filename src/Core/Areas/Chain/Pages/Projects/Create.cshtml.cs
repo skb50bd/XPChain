@@ -35,7 +35,7 @@ namespace Core.Areas.Chain.Pages.Projects
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("Invalid Model State");
+                return Page();
             }
 
             var project = new Project
