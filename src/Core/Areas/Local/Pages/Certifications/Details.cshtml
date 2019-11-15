@@ -1,84 +1,69 @@
 ﻿@page "{handler?}"
-@model Core.Areas.Local.Pages.UnitsOfWork.DetailsModel
+@model Core.Areas.Local.Pages.Certifications.DetailsModel
 @{
-    ViewData["Title"] = "Unit of Work";
+    ViewData["Title"] = "Local Certificate";
 }
 
 <div class="card details-card mb-2">
     <div class="card-header">
-        Unit of Work Details
+        Local Certificate
     </div>
     <div class="card-body">
         <div class="card-title">
-            <h1 class="display-4">@Model.LocalEmployee.Name</h1>
+            <h1 class="display-4">
+                @Model.Certificate.Title
+            </h1>
         </div>
 
         <div class="card-text">
             <table class="table table-sm table-striped table-hover">
                 <tbody>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.ProjectId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.Id)</th>
                         <td class="text-right">
                             <code>
-                                @Model.UnitOfWork.ProjectId
+                                @Model.Certificate.Id
                             </code>
                         </td>
                     </tr>
 
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Project.Title)</th>
+                        <th>
+                            Receiver's Name
+                        </th>
                         <td class="text-right">
-                            @Model.Project.Title
+                            @Model.LocalEmployee.Name
                         </td>
                     </tr>
-                    
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.UnitOfWork.ExecutorId)</th>
-                    <td class="text-right">
-                        <code>
-                            @Model.UnitOfWork.ExecutorId
-                        </code>
-                    </td>
-                </tr>
 
-                <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.ExecutorPublicKey)</th>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.ReceiverPublicKey)</th>
                         <td class="text-right">
                             <code>
-                                @Model.UnitOfWork.ExecutorPublicKey
+                                @Model.Certificate.ReceiverPublicKey
                             </code>
                         </td>
                     </tr>
 
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Tags)</th>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.Description)</th>
                         <td class="text-right">
-                            @Model.UnitOfWork.Tags
+                                @Model.Certificate.Description
                         </td>
                     </tr>
+
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Xp)</th>
-                        <td class="text-right">
-                            @Model.UnitOfWork.Xp
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Description)</th>
-                        <td class="text-right">
-                            @Html.DisplayFor(model => model.UnitOfWork.Description)
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.EmployeeSignature)</th>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.ReceiverSignature)</th>
                         <td class="text-right">
                             <code>
-                                @Model.UnitOfWork.EmployeeSignature
+                                @Model.Certificate.ReceiverSignature
                             </code>
                         </td>
                     </tr>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.IsDeployed)</th>
-                        <td class="text-right">@(Model.UnitOfWork.IsDeployed ? "Yes" : "No")</td>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.IsDeployed)</th>
+                        <td class="text-right">@(Model.Certificate.IsDeployed ? "Yes" : "No")</td>
                     </tr>
                 </tbody>
             </table>
@@ -89,8 +74,8 @@
             var api =
                 Url.ActionLink(
                     "Delete",
-                    "UnitsOfWork",
-                    new { Model.UnitOfWork.Id, area = "" });
+                    "Certifications",
+                    new { Model.Certificate.Id, area = "" });
 
             var returnUrl = Url.Page("./Index");
         }
@@ -109,23 +94,23 @@
             </div>
 
             <div class="col-6 text-right">
-                @if (Model.IsCorrectEmployee 
-                     && string.IsNullOrWhiteSpace(Model.UnitOfWork.EmployeeSignature))
+                @if (Model.IsCorrectEmployee
+                 && string.IsNullOrWhiteSpace(Model.Certificate.ReceiverSignature))
                 {
-                    <a asp-page="./Verification" 
-                       asp-route-id="@Model.UnitOfWork.Id.ToString()"
+                    <a asp-page="./Verification"
+                       asp-route-id="@Model.Certificate.Id.ToString()"
                        class="btn btn-primary text-white">
                         Verify
                     </a>
                 }
 
-                @if (Model.IsAdmin && !Model.UnitOfWork.IsDeployed)
+                @if (Model.IsAdmin && !Model.Certificate.IsDeployed)
                 {
-                    if (Model.UnitOfWork.IsReadyToDeploy)
+                    if (Model.Certificate.IsReadyToDeploy)
                     {
                         <form method="post"
                               asp-page-handler="deploy"
-                              asp-route-id="@Model.UnitOfWork.Id">
+                              asp-route-id="@Model.Certificate.Id">
                             <button class="btn btn-primary">
                                 Deploy
                             </button>

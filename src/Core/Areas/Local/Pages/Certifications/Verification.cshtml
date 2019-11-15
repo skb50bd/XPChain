@@ -1,5 +1,5 @@
 @page
-@model Core.Areas.Local.Pages.UnitsOfWork.VerificationModel
+@model Core.Areas.Local.Pages.Certifications.VerificationModel
 @{
     ViewData["Title"] = "Unit of Work Confirmation";
 }
@@ -11,7 +11,7 @@
     <div class="card-body">
         <div class="card-title">
             <h1 class="display-4">
-                @Model.LocalEmployee.Name
+                @Model.Certificate.Title
             </h1>
         </div>
 
@@ -19,24 +19,34 @@
             <form method="post">
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"
-                           asp-for="UnitOfWork.Id">
+                           asp-for="Certificate.Id">
                     </label>
 
                     <div class="col-sm-9">
                         <code>
-                            @Model.UnitOfWork.Id
+                            @Model.Certificate.Id
                         </code>
+                    </div>
+                </div>
+                         
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">
+                        Receiver's Name
+                    </label>
+
+                    <div class="col-sm-9">
+                            @Model.LocalEmployee.Name
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"
-                           asp-for="UnitOfWork.ExecutorPublicKey">
+                           asp-for="Certificate.ReceiverPublicKey">
                     </label>
 
                     <div class="col-sm-9">
                         <code>
-                            @Model.UnitOfWork.ExecutorPublicKey
+                            @Model.Certificate.ReceiverPublicKey
                         </code>
                     </div>
                 </div>

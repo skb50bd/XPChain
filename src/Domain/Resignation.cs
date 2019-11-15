@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using LiteDB;
 using Newtonsoft.Json;
 
@@ -23,16 +24,18 @@ namespace Domain
         /// <summary>
         /// Date of Resignation
         /// </summary>
+        [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
         [BsonIgnore]
         [JsonIgnore]
         public string Payload =>
-            Employee     +
-            Organization +
-            Description  +
-            EndDate.TimeStamp();
+            (Organization +
+             Employee     +
+             Description  +
+             EndDate.TimeStamp()).ToBase64();
 
+        [Display(Name = "Employee's Signature")]
         public string EmployeeSignature { get; set; }
     }
 }

@@ -1,0 +1,55 @@
+﻿@page
+
+@using Domain
+@model Core.Areas.Chain.Pages.UnitsOfWork.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="display-4">
+                        Units of Work
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="card-text">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Project ID</th>
+                        <th>Executor ID</th>
+                        <th>Tags</th>
+                        <th>XP</th>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var uow in Model.UnitsOfWork)
+                    {
+                        <tr>
+                            @*<td>@emp.Id</td>*@
+                            <td><code>@uow.Value.Id</code></td>
+                            <td><code>@uow.Value.ProjectId.ToString()</code></td>
+                            <td><code>@uow.Value.Executor.GetLast(30)</code></td>
+                            <td>@uow.Value.Tags</td>
+                            <td>@uow.Value.Xp</td>
+                            <td class="text-right">
+                                <a asp-page="./Details"
+                                   asp-route-hash="@uow.Key"
+                                   class="btn btn-sm btn-success">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

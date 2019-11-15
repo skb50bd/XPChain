@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using LiteDB;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Domain
 {
-    public class Certificate: Entity
+    public class Certificate : Entity
     {
         /// <summary>
         /// Subject of the Certificate
         /// </summary>
         public string Title { get; set; }
-        
+
         /// <summary>
         /// Public Key of the Issuer Organization
         /// </summary>
@@ -29,9 +26,15 @@ namespace Domain
         /// </summary>
         public string Description { get; set; }
 
-        [BsonIgnore] [JsonIgnore]
-        public string Payload => Title + Issuer + Owner + Description;
+        [BsonIgnore]
+        [JsonIgnore]
+        public string Payload =>
+            (Issuer +
+             Owner  +
+             Title  +
+             Description).ToBase64();
 
+        [Display(Name = "Owner's Signature")]
         public string OwnerSignature { get; set; }
     }
 }

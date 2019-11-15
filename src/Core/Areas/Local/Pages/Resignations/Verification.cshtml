@@ -1,17 +1,17 @@
 @page
-@model Core.Areas.Local.Pages.UnitsOfWork.VerificationModel
+@model Core.Areas.Local.Pages.Resignations.VerificationModel
 @{
-    ViewData["Title"] = "Unit of Work Confirmation";
+    ViewData["Title"] = "Resignation Confirmation";
 }
 
 <div class="card details-card mb-2">
     <div class="card-header">
-        Confirm Unit of Work
+        Confirm Resignation
     </div>
     <div class="card-body">
         <div class="card-title">
             <h1 class="display-4">
-                @Model.LocalEmployee.Name
+                @Model.Employee.Name
             </h1>
         </div>
 
@@ -19,24 +19,46 @@
             <form method="post">
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"
-                           asp-for="UnitOfWork.Id">
+                           asp-for="Resignation.Id">
                     </label>
 
                     <div class="col-sm-9">
                         <code>
-                            @Model.UnitOfWork.Id
+                            @Model.Resignation.Id
                         </code>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"
-                           asp-for="UnitOfWork.ExecutorPublicKey">
+                           asp-for="Employee.Id">
                     </label>
 
                     <div class="col-sm-9">
                         <code>
-                            @Model.UnitOfWork.ExecutorPublicKey
+                            @Model.Employee.Id
+                        </code>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">
+                        Employee's Name
+                    </label>
+
+                    <div class="col-sm-9">
+                        @Model.Employee.Name
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label"
+                           asp-for="Resignation.EmployeePublicKey">
+                    </label>
+
+                    <div class="col-sm-9">
+                        <code>
+                            @Model.Resignation.EmployeePublicKey
                         </code>
                     </div>
                 </div>

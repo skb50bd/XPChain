@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.ConstrainedExecution;
 
-namespace Core.Areas.Local.Pages.UnitsOfWork
+namespace Core.Areas.Local.Pages.Certifications
 {
     [Authorize(Roles = "Employee")]
     public class VerificationModel : PageModel
@@ -26,10 +27,10 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
 
         public bool IsCorrectEmployee { get; set; }
         public string VerificationPayload =>
-            UnitOfWork.GetVerificationMessage(_orgOptions.PublicKey);
+            Certificate.GetVerificationMessage(_orgOptions.PublicKey);
 
         public LocalEmployee LocalEmployee { get; set; }
-        public LocalUnitOfWork UnitOfWork { get; set; }
+        public LocalCertificate Certificate { get; set; }
 
         [BindProperty]
         public VerificationInputModel Input { get; set; }
@@ -55,12 +56,12 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
 
             if (!IsCorrectEmployee) return Unauthorized();
 
-            var uow =
-                _repository.SingleById<LocalUnitOfWork>(new ObjectId(id));
-            uow.EmployeeSignature = Input.VerificationSignature;
-            if (uow.Verify(_orgOptions.PublicKey))
+            var certificate =
+                _repository.SingleById<LocalCertificate>(new ObjectId(id));
+            certificate.ReceiverSignature = Input.VerificationSignature;
+            if (certificate.Verify(_orgOptions.PublicKey))
             {
-                _repository.Update(uow);
+                _repository.Update(certificate);
                 return RedirectToPage("./Details", new {id});
             }
 
@@ -71,9 +72,10 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
         {
             var objId = new ObjectId(id);
 
-            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(objId);
+            Certificate = _repository.SingleById<LocalCertificate>(objId);
 
-            LocalEmployee = _repository.SingleById<LocalEmployee>(new ObjectId(UnitOfWork.ExecutorId));
+            LocalEmployee = _repository.SingleOrDefault<LocalEmployee>(
+                e => e.PublicKey == Certificate.ReceiverPublicKey);
 
             IsCorrectEmployee =
                 User.Identity.Name

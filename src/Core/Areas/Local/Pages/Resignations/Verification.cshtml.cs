@@ -1,4 +1,3 @@
-using Crypto;
 using Data.Persistence;
 using Domain;
 using LiteDB;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.Areas.Local.Pages.UnitsOfWork
+namespace Core.Areas.Local.Pages.Resignations
 {
     [Authorize(Roles = "Employee")]
     public class VerificationModel : PageModel
@@ -26,10 +25,10 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
 
         public bool IsCorrectEmployee { get; set; }
         public string VerificationPayload =>
-            UnitOfWork.GetVerificationMessage(_orgOptions.PublicKey);
+            Resignation.GetVerificationMessage(_orgOptions.PublicKey);
 
-        public LocalEmployee LocalEmployee { get; set; }
-        public LocalUnitOfWork UnitOfWork { get; set; }
+        public LocalResignation Resignation { get; set; }
+        public LocalEmployee Employee { get; set; }
 
         [BindProperty]
         public VerificationInputModel Input { get; set; }
@@ -55,13 +54,13 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
 
             if (!IsCorrectEmployee) return Unauthorized();
 
-            var uow =
-                _repository.SingleById<LocalUnitOfWork>(new ObjectId(id));
-            uow.EmployeeSignature = Input.VerificationSignature;
-            if (uow.Verify(_orgOptions.PublicKey))
+            var resignation =
+                _repository.SingleById<LocalResignation>(new ObjectId(id));
+            resignation.EmployeeSignature = Input.VerificationSignature;
+            if (resignation.Verify(_orgOptions.PublicKey))
             {
-                _repository.Update(uow);
-                return RedirectToPage("./Details", new {id});
+                _repository.Update(resignation);
+                return RedirectToPage("./Details", new { id });
             }
 
             return BadRequest("Invalid Signature");
@@ -71,13 +70,14 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
         {
             var objId = new ObjectId(id);
 
-            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(objId);
+            Resignation = _repository.SingleById<LocalResignation>(objId);
 
-            LocalEmployee = _repository.SingleById<LocalEmployee>(new ObjectId(UnitOfWork.ExecutorId));
+            Employee = _repository.SingleOrDefault<LocalEmployee>(
+                e => e.PublicKey == Resignation.EmployeePublicKey);
 
             IsCorrectEmployee =
                 User.Identity.Name
-             == LocalEmployee.UserName;
+             == Employee.UserName;
         }
     }
 

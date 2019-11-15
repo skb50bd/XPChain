@@ -100,12 +100,13 @@ namespace Domain
             else if (block.Type == typeof(UnitOfWork).Name)
             {
                 var unitOfWork = block.Data.FromJson<UnitOfWork>();
-                var isValid = block.Originator == unitOfWork.Organization
-                           && SignatureProvider.Verify(
-                                  unitOfWork.Payload,
-                                  unitOfWork.EmployeeSignature,
-                                  unitOfWork.Executor);
-                if (!isValid) return false;
+                var isFromOwner = block.Originator == unitOfWork.Organization;
+                var isSignatureValid = 
+                    SignatureProvider.Verify(
+                        unitOfWork.Payload,
+                        unitOfWork.EmployeeSignature,
+                        unitOfWork.Executor);
+                if (!isFromOwner || !isSignatureValid) return false;
             }
             else return false;
 

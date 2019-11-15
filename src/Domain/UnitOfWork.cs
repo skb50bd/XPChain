@@ -1,4 +1,5 @@
-﻿using LiteDB;
+﻿using System.ComponentModel.DataAnnotations;
+using LiteDB;
 using System.Text.Json.Serialization;
 
 namespace Domain
@@ -10,11 +11,14 @@ namespace Domain
         /// </summary>
         public string Organization { get; set; }
         
+        [JsonConverter(typeof(ObjectIdConverter))]
+        [Display(Name = "Project ID")]
         public ObjectId ProjectId { get; set; }
 
         /// <summary>
         /// Public Key of the Employee that completed the Work
         /// </summary>
+        [Display(Name = "Executor's Public Key")]
         public string Executor { get; set; }
 
         /// <summary>
@@ -34,13 +38,14 @@ namespace Domain
         [BsonIgnore]
         [JsonIgnore]
         public string Payload =>
-            (Organization +
-             ProjectId    +
-             Executor     +
-             Tags         +
-             Xp           +
+            (Organization            +
+             ProjectId               +
+             Executor                +
+             Tags                    +
+             Xp.ToString("0.######") +
              Description).ToBase64();
 
+        [Display(Name = "Employee's Signature")]
         public string EmployeeSignature { get; set; }
     }
 }

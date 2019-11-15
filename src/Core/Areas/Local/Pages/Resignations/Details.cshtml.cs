@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 
-namespace Core.Areas.Local.Pages.UnitsOfWork
+namespace Core.Areas.Local.Pages.Resignations
 {
     [Authorize]
     public class DetailsModel : PageModel
@@ -31,18 +31,17 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
         }
 
         public LocalEmployee LocalEmployee { get; set; }
-        public Project Project { get; set; }
-        public LocalUnitOfWork UnitOfWork { get; set; }
+        public LocalResignation Resignation { get; set; }
         public bool IsCorrectEmployee { get; set; }
         public bool IsAdmin { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
             var objId = new ObjectId(id);
-            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(objId);
+            Resignation = _repository.SingleById<LocalResignation>(objId);
             LocalEmployee =
-                _repository.SingleById<LocalEmployee>(
-                    new ObjectId(UnitOfWork.ExecutorId));
+                _repository.SingleOrDefault<LocalEmployee>(
+                    e => e.PublicKey == Resignation.EmployeePublicKey);
             
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             IsAdmin = await _userManager.IsInRoleAsync(user, "Admin");
@@ -52,16 +51,11 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
                 if (user.UserName == LocalEmployee.UserName)
                 {
                     IsCorrectEmployee = true;
-                    LocalEmployee = _repository.SingleOrDefault<LocalEmployee>(
-                        e => e.UserName == user.UserName);
                 }
             }
 
             if (!IsAdmin && !IsCorrectEmployee)
                 return Unauthorized();
-
-            Project = _ledger.GetById<Project>(UnitOfWork.ProjectId);
-
 
             return Page();
         }
@@ -75,18 +69,16 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
                 return Unauthorized();
 
             var objId = new ObjectId(id);
-            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(objId);
+            Resignation = _repository.SingleById<LocalResignation>(objId);
 
-            var uow = new UnitOfWork
+            var resignation = new Resignation
             {
-                Id                = UnitOfWork.Id,
-                Organization      = _orgOptions.PublicKey,
-                ProjectId         = UnitOfWork.ProjectId,
-                Executor          = UnitOfWork.ExecutorPublicKey,
-                Tags              = UnitOfWork.Tags,
-                Description       = UnitOfWork.Description,
-                EmployeeSignature = UnitOfWork.EmployeeSignature,
-                Xp                = UnitOfWork.Xp
+                Id = Resignation.Id,
+                Organization = _orgOptions.PublicKey,
+                Employee = Resignation.EmployeePublicKey,
+                EndDate = Resignation.EndDate,
+                Description = Resignation.Description,
+                EmployeeSignature = Resignation.EmployeeSignature
             };
 
             var prevHash = _ledger.GetLastBlockHash();
@@ -96,16 +88,16 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
                 Id = ObjectId.NewObjectId(),
                 PreviousBlockHash = prevHash,
                 Originator = _orgOptions.PublicKey,
-                Data = uow.ToJson(),
-                Type = typeof(UnitOfWork).Name
+                Data = resignation.ToJson(),
+                Type = typeof(Resignation).Name
             };
             block.Sign(_orgOptions.PrivateKey);
             block.SetHash();
 
             _ledger.Insert(block);
-            UnitOfWork.IsDeployed = true;
-            _repository.Update(UnitOfWork);
-            return RedirectToPage("/UnitsOfWork/Details",
+            Resignation.IsDeployed = true;
+            _repository.Update(Resignation);
+            return RedirectToPage("/Resignations/Details",
                 new { id = block.Id, area = "Chain" });
         }
     }

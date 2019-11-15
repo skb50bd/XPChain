@@ -1,0 +1,89 @@
+﻿@page
+@model Core.Areas.Chain.Pages.Certifications.DetailsModel
+@{
+    ViewData["Title"] = "Certificate";
+}
+
+<div class="card details-card mb-2">
+    <div class="card-header">
+        Certificate Details
+    </div>
+    <div class="card-body">
+        <div class="card-title">
+            <h1 class="display-4">
+                @Model.Certificate.Title
+            </h1>
+        </div>                          
+
+        <div class="card-text">
+            <table class="table table-sm table-striped table-hover">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Certificate.Id
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Hash</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.Hash
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Previous Block Hash</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.PreviousBlockHash
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.Issuer)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Certificate.Issuer
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.Owner)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Certificate.Owner
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.Description)</th>
+                        <td class="text-right">
+                            @Html.DisplayFor(model => model.Certificate.Description)
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Certificate.OwnerSignature)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Certificate.OwnerSignature
+                            </code>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<a asp-page="./Index"
+   class="btn btn-secondary">
+    Back to Index
+</a>

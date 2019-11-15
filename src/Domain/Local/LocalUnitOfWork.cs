@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using System.ComponentModel.DataAnnotations;
+using Crypto;
 
 namespace Domain
 {
@@ -52,14 +53,22 @@ namespace Domain
             this LocalUnitOfWork uow, 
             string orgPublicKey)
         {
-            var output = orgPublicKey          +
-                         uow.ProjectId         +
-                         uow.ExecutorPublicKey +
-                         uow.Tags              +
-                         uow.Xp                +
+            var output = orgPublicKey                +
+                         uow.ProjectId               +
+                         uow.ExecutorPublicKey       +
+                         uow.Tags                    +
+                         uow.Xp.ToString("0.######") +
                          uow.Description;
 
             return output.ToBase64();
         }
+
+        public static bool Verify(
+            this LocalUnitOfWork uow, 
+            string orgPublicKey) =>
+            SignatureProvider.Verify(
+                uow.GetVerificationMessage(orgPublicKey),
+                uow.EmployeeSignature,
+                uow.ExecutorPublicKey);
     }
 }

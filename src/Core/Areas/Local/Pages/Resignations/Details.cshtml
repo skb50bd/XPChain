@@ -1,84 +1,76 @@
 ﻿@page "{handler?}"
-@model Core.Areas.Local.Pages.UnitsOfWork.DetailsModel
+@model Core.Areas.Local.Pages.Resignations.DetailsModel
 @{
-    ViewData["Title"] = "Unit of Work";
+    ViewData["Title"] = "Local Resignation";
 }
 
 <div class="card details-card mb-2">
     <div class="card-header">
-        Unit of Work Details
+        Local Resignation
     </div>
     <div class="card-body">
         <div class="card-title">
-            <h1 class="display-4">@Model.LocalEmployee.Name</h1>
+            <h1 class="display-4">
+                @Model.LocalEmployee.Name
+            </h1>
         </div>
 
         <div class="card-text">
             <table class="table table-sm table-striped table-hover">
                 <tbody>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.ProjectId)</th>
+                        <th>@Html.DisplayNameFor(model => model.Resignation.Id)</th>
                         <td class="text-right">
                             <code>
-                                @Model.UnitOfWork.ProjectId
+                                @Model.Resignation.Id
                             </code>
                         </td>
                     </tr>
 
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Project.Title)</th>
+                        <th>
+                            Employee ID
+                        </th>
                         <td class="text-right">
-                            @Model.Project.Title
+                            <code>
+                                @Model.LocalEmployee.Id
+                            </code>
                         </td>
                     </tr>
-                    
+
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Resignation.EmployeePublicKey)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Resignation.EmployeePublicKey
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Resignation.Description)</th>
+                        <td class="text-right">
+                            @Model.Resignation.Description
+                        </td>
+                    </tr>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.UnitOfWork.ExecutorId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Resignation.EndDate)</th>
                     <td class="text-right">
-                        <code>
-                            @Model.UnitOfWork.ExecutorId
-                        </code>
+                        @Model.Resignation.EndDate.ToString("D")
                     </td>
                 </tr>
-
-                <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.ExecutorPublicKey)</th>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Resignation.EmployeeSignature)</th>
                         <td class="text-right">
                             <code>
-                                @Model.UnitOfWork.ExecutorPublicKey
-                            </code>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Tags)</th>
-                        <td class="text-right">
-                            @Model.UnitOfWork.Tags
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Xp)</th>
-                        <td class="text-right">
-                            @Model.UnitOfWork.Xp
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.Description)</th>
-                        <td class="text-right">
-                            @Html.DisplayFor(model => model.UnitOfWork.Description)
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.EmployeeSignature)</th>
-                        <td class="text-right">
-                            <code>
-                                @Model.UnitOfWork.EmployeeSignature
+                                @Model.Resignation.EmployeeSignature
                             </code>
                         </td>
                     </tr>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.UnitOfWork.IsDeployed)</th>
-                        <td class="text-right">@(Model.UnitOfWork.IsDeployed ? "Yes" : "No")</td>
+                        <th>@Html.DisplayNameFor(model => model.Resignation.IsDeployed)</th>
+                        <td class="text-right">@(Model.Resignation.IsDeployed ? "Yes" : "No")</td>
                     </tr>
                 </tbody>
             </table>
@@ -89,8 +81,8 @@
             var api =
                 Url.ActionLink(
                     "Delete",
-                    "UnitsOfWork",
-                    new { Model.UnitOfWork.Id, area = "" });
+                    "Resignations",
+                    new { Model.Resignation.Id, area = "" });
 
             var returnUrl = Url.Page("./Index");
         }
@@ -109,23 +101,23 @@
             </div>
 
             <div class="col-6 text-right">
-                @if (Model.IsCorrectEmployee 
-                     && string.IsNullOrWhiteSpace(Model.UnitOfWork.EmployeeSignature))
+                @if (Model.IsCorrectEmployee
+                && string.IsNullOrWhiteSpace(Model.Resignation.EmployeeSignature))
                 {
-                    <a asp-page="./Verification" 
-                       asp-route-id="@Model.UnitOfWork.Id.ToString()"
+                    <a asp-page="./Verification"
+                       asp-route-id="@Model.Resignation.Id.ToString()"
                        class="btn btn-primary text-white">
                         Verify
                     </a>
                 }
 
-                @if (Model.IsAdmin && !Model.UnitOfWork.IsDeployed)
+                @if (Model.IsAdmin && !Model.Resignation.IsDeployed)
                 {
-                    if (Model.UnitOfWork.IsReadyToDeploy)
+                    if (Model.Resignation.IsReadyToDeploy)
                     {
                         <form method="post"
                               asp-page-handler="deploy"
-                              asp-route-id="@Model.UnitOfWork.Id">
+                              asp-route-id="@Model.Resignation.Id">
                             <button class="btn btn-primary">
                                 Deploy
                             </button>
