@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Core.Areas.Chain.Pages.Employees
+namespace Core.Areas.Chain.Pages.Projects
 {
     public class IndexModel : PageModel
     {
@@ -16,16 +16,16 @@ namespace Core.Areas.Chain.Pages.Employees
         }
 
 
-        public IDictionary<string, Employee> Employees { get; set; }
+        public IDictionary<string, Project> Projects { get; set; }
 
         public void OnGet()
         {
             var blocks = _repository.GetAll();
-            var dict = blocks.Where(b => b.Type == typeof(Employee).Name)
-                             .Select(b => new KeyValuePair<string, Employee>(
+            var dict = blocks.Where(b => b.Type == typeof(Project).Name)
+                             .Select(b => new KeyValuePair<string, Project>(
                                       b.Hash, 
-                                      b.Data.FromJson<Employee>()));
-            Employees = new Dictionary<string, Employee>(dict);
+                                      b.Data.FromJson<Project>()));
+            Projects = new Dictionary<string, Project>(dict);
         }
     }
 }

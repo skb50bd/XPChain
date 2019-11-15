@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain
 {
     public class Project : Entity
     {
@@ -12,6 +14,7 @@
         /// <summary>
         /// Total Reward for the Project
         /// </summary>
+        [Display(Name = "Experience Points")]
         public decimal TotalXp { get; set; }
 
         /// <summary>

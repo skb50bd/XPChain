@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using LiteDB;
 using Newtonsoft.Json;
 
@@ -24,6 +25,7 @@ namespace Domain
         /// <summary>
         /// Joining Date of the Employee
         /// </summary>
+        [Display(Name = "Join Date")]
         public DateTime StartDate { get; set; }
 
         [BsonIgnore]

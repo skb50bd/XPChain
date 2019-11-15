@@ -30,6 +30,7 @@ namespace Data.Persistence
         {
             if (mapper is null) mapper = BsonMapper.Global;
             Db = new LiteDatabase(settings.CurrentValue.Ledger, mapper);
+            Collection.EnsureIndex(b => b.Type);
             Collection.EnsureIndex(b => b.Hash);
             Collection.EnsureIndex(b => b.PreviousBlockHash);
         }

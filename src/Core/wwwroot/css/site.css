@@ -84,3 +84,11 @@ td {
 table {
     table-layout: fixed;
 }
+
+.view-col {
+    width: 80px;
+}
+
+.auto-col {
+    width: auto;
+}

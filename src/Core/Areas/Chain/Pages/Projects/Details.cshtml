@@ -1,7 +1,7 @@
 ﻿@page
 @using Microsoft.Extensions.Options
 @inject IOptionsMonitor<OrganizationOptions> orgMonitor
-@model Core.Areas.Chain.Pages.Employees.DetailsModel
+@model Core.Areas.Chain.Pages.Projects.DetailsModel
 @{
     ViewData["Title"] = "Employee";
 }
@@ -53,23 +53,29 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Employee's Public Key</th>
+                        <th>@Html.DisplayNameFor(model => model.Project.Organization)</th>
                         <td class="text-right">
                             <code>
-                                @Model.Employee.PublicKey
+                                @Model.Project.Organization
                             </code>
                         </td>
                     </tr>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Employee.Designation)</th>
+                        <th>@Html.DisplayNameFor(model => model.Project.Title)</th>
                         <td class="text-right">
-                            @Model.Employee.Designation
+                            @Model.Project.Title
                         </td>
                     </tr>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.Employee.StartDate)</th>
+                        <th>@Html.DisplayNameFor(model => model.Project.TotalXp)</th>
                         <td class="text-right">
-                            @Model.Employee.StartDate.ToString("dd MMM yyyy")
+                            @Model.Project.TotalXp
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Project.Description)</th>
+                        <td class="text-right">
+                            @Model.Project.Description
                         </td>
                     </tr>
                     <tr>
@@ -90,17 +96,6 @@
             </table>
         </div>
     </div>
-    @if (orgMonitor.CurrentValue.PublicKey == Model.Block.Originator)
-    {
-        <div class="card-footer">
-            <a asp-page="/Employees/Details"
-               asp-area="Local"
-               asp-route-id="@Model.Employee.Id"
-               class="btn btn-primary">
-                View Local Data
-            </a>
-        </div>
-    }
 </div>
 
 <a asp-page="./Index"
