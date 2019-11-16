@@ -12,7 +12,7 @@ namespace Domain
 
         [Display(Name = "Hash")]
         public string Hash { get; set; }
-        
+
         [Display(Name = "Previous Block Hash")]
         public string PreviousBlockHash { get; set; }
 

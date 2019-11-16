@@ -92,3 +92,11 @@ table {
 .auto-col {
     width: auto;
 }
+
+.xp-area {
+
+}
+
+.local-area {
+    border-right: 1px dashed black;
+}

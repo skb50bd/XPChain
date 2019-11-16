@@ -1,0 +1,87 @@
+﻿@page
+@using Domain
+@model Core.Areas.Chain.Pages.Blocks.DetailsModel
+@{
+    ViewData["Title"] = "Block";
+}
+
+<div class="card details-card mb-2">
+    <div class="card-header">
+        Block Details
+    </div>
+    <div class="card-body">
+        <div class="card-title">
+            <h1 style="font-weight: lighter">
+                <code>
+                    @Model.Block.Id
+                </code>
+            </h1>
+        </div>
+
+        <div class="card-text">
+            <table class="table table-sm table-striped table-hover">
+                <tbody>
+                    <tr>
+                        <th>Hash</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.Hash
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Previous Block Hash</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.PreviousBlockHash
+                            </code>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <th>Created at</th>
+                        <td class="text-right">
+                            @Model.Block.CreatedAt.ToString("F")
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.Originator)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.Originator
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.Type)</th>
+                        <td class="text-right">
+                            @Model.Block.Type
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.Signature)</th>
+                        <td class="text-right">
+                            <code>
+                                @Html.DisplayFor(model => model.Block.Signature)
+                            </code>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>   
+            <h6>Block Data</h6>
+            <code><pre>
+@Model.Block.Data.IndentJson()
+            </pre></code>
+        </div>
+    </div>
+</div>
+
+<a asp-page="./Index"
+   class="btn btn-secondary">
+    Back to Index
+</a>

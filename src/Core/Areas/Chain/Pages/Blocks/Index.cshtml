@@ -1,0 +1,52 @@
+﻿@page
+@using Domain
+@model Core.Areas.Chain.Blocks.IndexModel
+@{
+    ViewData["Title"] = "Blocks";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <h1 class="display-4">
+                Blocks
+            </h1>      
+        </div>         
+        
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hash</th>
+                    <th>Prev. Block Hash</th>
+                    <th>Originator</th>
+                    <th>Type</th>
+                    <th>Created at</th>
+                    <th class="text-right view-col"></th>
+                </tr>
+            </thead>              
+            <tbody>
+            @foreach (var block in Model.Blocks)
+            {
+                <tr>
+                    <td><code>@block.Id</code></td>
+                    <td><code>@block.Hash.GetLast(12)</code></td>
+                    <td><code>@block.PreviousBlockHash?.GetLast(12)</code></td>
+                    <td><code>@block.Originator.GetLast(25)</code></td>
+                    <td>@block.Type</td>
+                    <td>@block.CreatedAt.ToString("F")</td> 
+                    <td>
+                        <a asp-page="./Details"
+                           asp-area="Chain"
+                           asp-route-id="@block.Id"
+                           class="btn btn-success">
+                            View
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
