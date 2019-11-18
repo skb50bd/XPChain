@@ -92,7 +92,7 @@ namespace Core.Areas.Local.Pages.Employees
             LocalEmployee.IsDeployed = true;
             _repository.Update(LocalEmployee);
             return RedirectToPage("/Employees/Details",
-                new {id = block.Id, area = "Chain"});
+                new {hash = block.Hash, area = "Chain"});
         }
 
         public bool Verify() =>

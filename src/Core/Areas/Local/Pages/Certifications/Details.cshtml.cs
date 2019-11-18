@@ -97,8 +97,8 @@ namespace Core.Areas.Local.Pages.Certifications
             _ledger.Insert(block);
             Certificate.IsDeployed = true;
             _repository.Update(Certificate);
-            return RedirectToPage("/UnitsOfWork/Details",
-                new { id = block.Id, area = "Chain" });
+            return RedirectToPage("/Certifications/Details",
+                new { hash = block.Hash, area = "Chain" });
         }
     }
 }

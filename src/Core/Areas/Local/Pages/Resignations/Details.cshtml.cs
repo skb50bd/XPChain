@@ -98,7 +98,7 @@ namespace Core.Areas.Local.Pages.Resignations
             Resignation.IsDeployed = true;
             _repository.Update(Resignation);
             return RedirectToPage("/Resignations/Details",
-                new { id = block.Id, area = "Chain" });
+                new { hash = block.Hash, area = "Chain" });
         }
     }
 }

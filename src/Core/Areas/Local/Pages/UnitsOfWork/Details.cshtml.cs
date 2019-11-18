@@ -106,7 +106,7 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
             UnitOfWork.IsDeployed = true;
             _repository.Update(UnitOfWork);
             return RedirectToPage("/UnitsOfWork/Details",
-                new { id = block.Id, area = "Chain" });
+                new { hash = block.Hash, area = "Chain" });
         }
     }
 }
