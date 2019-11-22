@@ -43,6 +43,13 @@ namespace Core
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>();
 
+            services.AddControllers()
+                    .AddNewtonsoftJson(
+                        opt => opt.SerializerSettings.Converters.Add(
+                            new ObjectIdConverter()
+                        )
+                    );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
@@ -99,6 +106,7 @@ namespace Core
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
 
             SeedUsers.Seed(roleManager, userManager).Wait();
