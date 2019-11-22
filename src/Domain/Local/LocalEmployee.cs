@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using Crypto;
 using LiteDB;
+using Newtonsoft.Json;
 
 namespace Domain
 {
