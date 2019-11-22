@@ -1,50 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using Data.Persistence;
+﻿using Data.Persistence;
 using Domain;
-using LiteDB;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Core.Controllers
 {
-    public abstract class XpController<T> : ControllerBase where T : Entity
+    [ApiController]
+    public class XpController : ControllerBase
     {
-        protected readonly INodeRepository Repository;
-
-        protected XpController(
-            INodeRepository repository)
+        private readonly INodeRepository _repository;
+        private readonly ILedgerRepository _ledger;
+        public XpController(
+            INodeRepository repository,
+            ILedgerRepository ledger)
         {
-            Repository = repository;
+            _repository = repository;
+            _ledger = ledger;
         }
 
-
-        [HttpGet]
-        public IEnumerable<T> Get()
+        [HttpGet("/ledger/Chain")]
+        public IEnumerable<Block> GetChain()
         {
-            return Repository.GetAll<T>();
+            return _ledger.GetAll();
         }
 
-        [HttpGet("{id}")]
-        public T Get(ObjectId id) => 
-            Repository.SingleById<T>(id);
-
-        // POST: api/Organizations
-        [HttpPost]
-        public IActionResult Post([FromBody] T item)
+        [HttpGet("/ledger/BlockByHash/{hash}")]
+        public Block GetByHash([FromRoute]string hash)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("The model is not valid");
+            return _ledger.GetByHash(hash);
+        }
 
-            var prev =
-                Repository.FirstOrDefault<T>(o => o.Id == item.Id);
-            if (!(prev is null))
-                return BadRequest("An item with the same ID already exists");
+        [HttpGet("/ledger/NextBlock/{currentBlockHash}")]
+        public Block GetNextBlock(string currentBlockHash)
+        {
+            return _ledger.GetNextBlock(currentBlockHash);
+        }
 
-            Repository.Insert(item);
-            var obj =
-                Repository.FirstOrDefault<T>(o => o.Id == item.Id);
+        [HttpGet("/ledger/LastHash")]
+        public string GetLastBlockHash()
+        {
+            return _ledger.GetLastBlockHash();
+        }
 
-            return Ok(obj);
+        [HttpGet("/ledger/LastBlock")]
+        public Block GetLastBlock()
+        {
+            return _ledger.GetLastBlock();
+        }
+
+        [HttpGet("/ledger/Length")]
+        public int GetChainLength()
+        {
+            return _ledger.GetChainLength();
+        }
+
+        [HttpGet("/ledger/Genesis")]
+        public Block GetGenesisBlock()
+        {
+            return _ledger.GetGenesisBlock();
         }
     }
 }
