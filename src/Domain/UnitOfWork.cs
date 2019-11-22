@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using LiteDB;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Domain
 {
