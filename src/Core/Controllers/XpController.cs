@@ -59,5 +59,11 @@ namespace Core.Controllers
         {
             return _ledger.GetGenesisBlock();
         }
+
+        [HttpGet("/ledger/InsertBlock/{block}")]
+        public Block InsertBlock([FromRoute]Block block)
+        {
+            return _ledger.Insert(block);
+        }
     }
 }
