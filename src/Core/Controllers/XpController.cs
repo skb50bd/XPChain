@@ -8,13 +8,10 @@ namespace Core.Controllers
     [ApiController]
     public class XpController : ControllerBase
     {
-        private readonly INodeRepository _repository;
         private readonly ILedgerRepository _ledger;
         public XpController(
-            INodeRepository repository,
             ILedgerRepository ledger)
         {
-            _repository = repository;
             _ledger = ledger;
         }
 

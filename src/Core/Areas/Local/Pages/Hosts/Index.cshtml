@@ -1,0 +1,56 @@
+﻿@page 
+@using Domain
+@model Core.Areas.Local.Pages.Hosts.IndexModel
+@{
+    ViewData["Title"] = "Hosts";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="display-4">
+                        Hosts
+                    </h1>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a  asp-page="./Create"
+                        class="btn btn-primary text-white">Add New</a>
+                </div>
+            </div>
+        </div>  
+        <div class="card-text">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Address</th>
+                        <th>Port</th>
+                        <th>Public Key</th>
+                        <td></td>
+                    </tr>
+                </thead>  
+                <tbody>
+                @foreach (var host in Model.Hosts)
+                {
+                    var tblClass = host.IsVerified ? "table-success" : "table-warning";
+                    <tr class="@tblClass">
+                        <td><code>@host.Id</code></td>
+                        <td><code>@host.Address</code></td>
+                        <td><code>@host.Port</code></td>
+                        <td><code>@host.PublicKey.GetLast(25)</code></td>
+                        <td class="text-right">
+                            <a asp-page="./Details"
+                               asp-route-id="@host.Id.ToString()"
+                               class="btn btn-sm btn-success">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

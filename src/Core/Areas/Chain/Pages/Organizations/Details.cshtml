@@ -1,0 +1,117 @@
+﻿@page
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<OrganizationOptions> orgMonitor
+@model Core.Areas.Chain.Pages.Organizations.DetailsModel
+@{
+    ViewData["Title"] = "Organization";
+}
+
+<div class="card details-card mb-2">
+    <div class="card-header">
+        Organization Details
+    </div>
+    <div class="card-body">
+        <div class="card-title">
+            <h1 class="display-4">
+                @Model.Organization.Title
+            </h1>
+        </div>
+
+        <div class="card-text">
+            <table class="table table-sm table-striped table-hover">
+                <tbody>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.Id)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.Id
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.Hash)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.Hash
+                            </code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.PreviousBlockHash)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.PreviousBlockHash
+                            </code>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.Originator)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.Originator
+                            </code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Public Key</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Organization.PublicKey
+                            </code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Organization.Address)</th>
+                        <td class="text-right">
+                            @Model.Organization.Address
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Organization.Email)</th>
+                        <td class="text-right">
+                            <a href="mailto:@Model.Organization.Email">@Model.Organization.Email</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Organization.Phone)</th>
+                        <td class="text-right">
+                            <a href="tel:@Model.Organization.Phone">@Model.Organization.Phone</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.CreatedAt)</th>
+                        <td class="text-right">
+                            @Model.Block.CreatedAt.ToString("F")
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Block.Signature)</th>
+                        <td class="text-right">
+                            <code>
+                                @Model.Block.Signature
+                            </code>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @if (orgMonitor.CurrentValue.PublicKey == Model.Block.Originator)
+    {
+        <div class="card-footer">
+            <a asp-page="/Employees/Details"
+               asp-area="Local"
+               asp-route-id="@Model.Organization.Id"
+               class="btn btn-primary">
+                View Local Data
+            </a>
+        </div>
+    }
+</div>
+
+<a asp-page="./Index"
+   class="btn btn-secondary">
+    Back to Index
+</a>

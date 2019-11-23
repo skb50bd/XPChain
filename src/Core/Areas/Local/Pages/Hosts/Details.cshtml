@@ -1,0 +1,88 @@
+﻿@page "{handler?}"
+@model Core.Areas.Local.Pages.Hosts.DetailsModel
+@{
+    ViewData["Title"] = "Host";
+}
+
+<div class="card details-card mb-2">
+    <div class="card-header">
+        Hosts/Nodes Details
+    </div>
+    <div class="card-body">
+        <div class="card-title">
+            <h1>
+                <code>@Model.Host.Id</code>
+            </h1>
+        </div>
+
+        <div class="card-text">
+            <table class="table table-sm table-striped table-hover">
+                <tbody>
+                <tr>
+                    <th>Address</th>
+                    <td class="text-right">
+                        <code>
+                            @Model.Host.Address
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Port</th>
+                    <td class="text-right">
+                        <code>
+                            @Model.Host.Port
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Public Key</th>
+                    <td class="text-right">
+                        <code>
+                            @Model.Host.PublicKey
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Is Verified</th>
+                    <td class="text-right">
+                        @(Model.Host.IsVerified ? "Yes" : "No")
+                    </td>
+                </tr>
+                <tr>
+                    <th>Last Seen</th>
+                    <td class="text-right">
+                        @Model.Host.LastSeen?.ToString("dd MMM yyyy HH:mm:ss")
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        @{
+            var api =
+                Url.ActionLink(
+                    "Delete",
+                    "Hosts",
+                    new { Model.Host.Id, area = "" });
+
+            var returnUrl = Url.Page("./Index");
+        }
+        @api
+        <div class="row">
+            <div class="col-6">
+                <a href="#"
+                       class="btn btn-danger text-white js-remove-item"
+                       data-href="@api"
+                       data-returnUrl="@returnUrl">
+                        Delete
+                    </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a asp-page="./Index"
+   class="btn btn-secondary">
+    Back to Index
+</a>
