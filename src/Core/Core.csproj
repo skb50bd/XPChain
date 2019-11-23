@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Local\Pages\Host\" />
     <Folder Include="Areas\Local\Pages\UnitsOfWork\" />
   </ItemGroup>
 

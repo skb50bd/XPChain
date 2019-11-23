@@ -1,0 +1,58 @@
+﻿@page 
+@using Domain
+@model Core.Areas.Local.Pages.Organizations.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="display-4">
+                        Local Organizations
+                    </h1>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a  asp-page="./Create"
+                        class="btn btn-primary text-white">Add New</a>
+                </div>
+            </div>
+        </div>  
+        <div class="card-text">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Pub. Key</th>
+                        <th>Email</th>
+                        <th>Phone</th>  
+                        <td></td>
+                    </tr>
+                </thead>  
+                <tbody>
+                @foreach (var organization in Model.Organizations)
+                {
+                    var tblClass = organization.IsDeployed ? "table-success" : "table-warning";
+                    <tr class="@tblClass">
+                        <td>@organization.Id</td>
+                        <td>@organization.Title</td>
+                        <td><code>@organization.PublicKey.GetLast(30)</code></td>
+                        <td>@organization.Email</td>
+                        <td>@organization.Phone</td>
+                        <td class="text-right">
+                            <a asp-page="./Details"
+                               asp-route-id="@organization.Id.ToString()"
+                               class="btn btn-sm btn-success">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
