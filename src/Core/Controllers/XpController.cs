@@ -2,6 +2,7 @@
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Controllers
 {
@@ -57,10 +58,22 @@ namespace Core.Controllers
             return _ledger.GetGenesisBlock();
         }
 
-        [HttpGet("/ledger/InsertBlock/{block}")]
-        public Block InsertBlock([FromRoute]Block block)
+        [HttpPost("/ledger/InsertBlock")]
+        public Block PostBlock(Block block)
         {
-            return _ledger.Insert(block);
+            var orgs = _ledger.GetAll<Organization>();
+            Block b = _ledger.GetById(block.Id);
+            if(b == null)
+            {
+                var validOrg = orgs.Any(o => o.PublicKey == block.Originator);
+
+                if (validOrg)
+                    _ledger.Insert(block);
+            }
+           
+            throw new KeyNotFoundException();
         }
+
+
     }
 }

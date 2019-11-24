@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Data.Persistence
 {
@@ -20,11 +23,14 @@ namespace Data.Persistence
         private LiteCollection<Block> Collection =>
             Db.GetCollection<Block>("ledger");
 
+        private readonly INodeRepository _repository;
+
         #endregion
 
         #region Ctor
 
         public LiteDbLedgerRepository(
+            INodeRepository repository,
             IOptionsMonitor<LiteSettings> settings,
             BsonMapper mapper = null)
         {
@@ -33,6 +39,7 @@ namespace Data.Persistence
             Collection.EnsureIndex(b => b.Type);
             Collection.EnsureIndex(b => b.Hash);
             Collection.EnsureIndex(b => b.PreviousBlockHash);
+            _repository = repository;
         }
 
         public LiteDbLedgerRepository(
@@ -69,7 +76,7 @@ namespace Data.Persistence
         public Block GetNextBlock(string currentBlockHash) =>
             Collection.FindOne(b => b.PreviousBlockHash == currentBlockHash);
 
-        public Block Insert(Block item)
+        public async Task<Block> Insert(Block item)
         {
             var lastBlockHash = GetLastBlockHash();
             if (string.IsNullOrWhiteSpace(item.PreviousBlockHash))
@@ -80,6 +87,36 @@ namespace Data.Persistence
             
             if (!item.Validate()) throw new InvalidBlockException();
 
+            
+            ///Post Broadcast requests start here
+            var hosts = _repository.GetAll<Host>();
+
+            foreach(var host in hosts)
+            {
+                if (item.Originator == host.PublicKey)
+                    continue;
+
+                var Url = host.Address + "/" + host.Port + "/" + "/ledger/InsertBlock";
+
+                using (var client = new HttpClient())
+                using (var request = new HttpRequestMessage(HttpMethod.Post, Url))
+                {
+                    var json = JsonConvert.SerializeObject(item);
+                    using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
+                    {
+                        request.Content = stringContent;
+
+                        using (var response = await client
+                            .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                            .ConfigureAwait(false))
+                        {
+                            response.EnsureSuccessStatusCode();
+                        }
+                    }
+                }
+
+            }
+        
             var id = Collection.Insert(item);
             return GetById(id);
         }

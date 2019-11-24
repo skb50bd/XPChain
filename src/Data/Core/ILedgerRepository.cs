@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using LiteDB;
+using System.Threading.Tasks;
 
 namespace Data.Persistence
 {
@@ -17,7 +18,7 @@ namespace Data.Persistence
 
         Block GetNextBlock(string currentBlockHash);
 
-        Block Insert(Block item);
+        Task<Block> Insert(Block item);
 
         IEnumerable<Block> GetAll();
 
