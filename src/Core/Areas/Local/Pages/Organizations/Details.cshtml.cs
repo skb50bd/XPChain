@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace Core.Areas.Local.Pages.Organizations
 {
@@ -34,7 +35,7 @@ namespace Core.Areas.Local.Pages.Organizations
             return Page();
         }
 
-        public IActionResult OnPostDeploy(string id)
+        public async Task<IActionResult> OnPostDeploy(string id)
         {
             var objId = new ObjectId(id);
             Organization = _repository.SingleById<LocalOrganization>(objId);
@@ -63,7 +64,7 @@ namespace Core.Areas.Local.Pages.Organizations
             block.Sign(_orgOptions.PrivateKey);
             block.SetHash();
 
-            _ledger.Insert(block);
+            await _ledger.Insert(block);
             Organization.IsDeployed = true;
             _repository.Update(Organization);
             return RedirectToPage("/Organizations/Details",

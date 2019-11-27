@@ -94,7 +94,7 @@ namespace Core.Areas.Local.Pages.Certifications
             block.Sign(_orgOptions.PrivateKey);
             block.SetHash();
 
-            _ledger.Insert(block);
+            await _ledger.Insert(block);
             Certificate.IsDeployed = true;
             _repository.Update(Certificate);
             return RedirectToPage("/Certifications/Details",

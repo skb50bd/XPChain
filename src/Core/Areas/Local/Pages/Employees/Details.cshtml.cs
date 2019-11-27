@@ -88,7 +88,7 @@ namespace Core.Areas.Local.Pages.Employees
             block.Sign(_orgOptions.PrivateKey);
             block.SetHash();
 
-            _ledger.Insert(block);
+            await _ledger.Insert(block);
             LocalEmployee.IsDeployed = true;
             _repository.Update(LocalEmployee);
             return RedirectToPage("/Employees/Details",

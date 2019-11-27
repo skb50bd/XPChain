@@ -102,7 +102,7 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
             block.Sign(_orgOptions.PrivateKey);
             block.SetHash();
 
-            _ledger.Insert(block);
+            await _ledger.Insert(block);
             UnitOfWork.IsDeployed = true;
             _repository.Update(UnitOfWork);
             return RedirectToPage("/UnitsOfWork/Details",

@@ -94,7 +94,7 @@ namespace Core.Areas.Local.Pages.Resignations
             block.Sign(_orgOptions.PrivateKey);
             block.SetHash();
 
-            _ledger.Insert(block);
+            await _ledger.Insert(block);
             Resignation.IsDeployed = true;
             _repository.Update(Resignation);
             return RedirectToPage("/Resignations/Details",
