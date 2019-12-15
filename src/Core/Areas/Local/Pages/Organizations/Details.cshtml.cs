@@ -31,15 +31,13 @@ namespace Core.Areas.Local.Pages.Organizations
 
         public IActionResult OnGet(string id)
         {
-            var objId = new ObjectId(id);
-            Organization = _repository.SingleById<LocalOrganization>(objId);
+            Organization = _repository.SingleById<LocalOrganization>(id);
             return Page();
         }
 
         public async Task<IActionResult> OnPostDeploy(string id)
         {
-            var objId = new ObjectId(id);
-            Organization = _repository.SingleById<LocalOrganization>(objId);
+            Organization = _repository.SingleById<LocalOrganization>(id);
 
             var organization = new Organization
             {
@@ -56,7 +54,7 @@ namespace Core.Areas.Local.Pages.Organizations
 
             var block = new Block
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 PreviousBlockHash = prevHash,
                 Originator = _orgOptions.PublicKey,
                 Data = organization.ToJson(),

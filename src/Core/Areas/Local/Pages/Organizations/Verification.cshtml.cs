@@ -1,9 +1,11 @@
 using Data.Persistence;
+
 using Domain;
-using LiteDB;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Areas.Local.Pages.Organizations
@@ -58,8 +60,7 @@ namespace Core.Areas.Local.Pages.Organizations
 
         private void Load(string id)
         {
-            var objId = new ObjectId(id);
-            Organization = _repository.SingleById<LocalOrganization>(objId);
+            Organization = _repository.SingleById<LocalOrganization>(id);
         }
     }
 

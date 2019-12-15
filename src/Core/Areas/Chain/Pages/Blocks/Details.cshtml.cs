@@ -22,7 +22,7 @@ namespace Core.Areas.Chain.Pages.Blocks
 
         public IActionResult OnGet(string id)
         {
-            Block = _ledger.GetById(new ObjectId(id));
+            Block = _ledger.GetById(id);
 
             if (Block is null)
                 return NotFound();

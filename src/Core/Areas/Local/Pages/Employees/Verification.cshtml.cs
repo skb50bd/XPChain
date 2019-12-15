@@ -90,8 +90,7 @@ namespace Core.Areas.Local.Pages.Employees
 
         private void Load(string id)
         {
-            var objId = new ObjectId(id);
-            LocalEmployee = _repository.SingleById<LocalEmployee>(objId);
+            LocalEmployee = _repository.SingleById<LocalEmployee>(id);
 
             IsCorrectEmployee =
                 User.Identity.Name

@@ -1,18 +1,20 @@
-using System;
-using System.IO;
-using System.Reflection;
+using Data;
+using Data.Persistence;
+
+using Domain;
+using Domain.Local;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Data.Persistence;
-using Data;
-using Domain;
-using Domain.Local;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Identity;
-using Newtonsoft.Json;
+
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Core
 {
@@ -44,12 +46,7 @@ namespace Core
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddControllers()
-                    .AddNewtonsoftJson(
-                        opt => opt.SerializerSettings.Converters.Add(
-                            new ObjectIdConverter()
-                        )
-                    );
+            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {

@@ -11,7 +11,6 @@ namespace Domain
             {
                 Formatting = indent ? Formatting.Indented : Formatting.None
             };
-            settings.Converters.Add(new ObjectIdConverter());
 
             return JsonConvert.SerializeObject(item, settings);
         }
@@ -20,8 +19,6 @@ namespace Domain
         {
             var settings =
                 new JsonSerializerSettings();
-            settings.Converters.Add(
-                    new ObjectIdConverter());
             return JsonConvert.DeserializeObject<T>(json, settings);
         }
 

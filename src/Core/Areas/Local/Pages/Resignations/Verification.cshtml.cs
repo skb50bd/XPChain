@@ -56,7 +56,7 @@ namespace Core.Areas.Local.Pages.Resignations
             if (!IsCorrectEmployee) return Unauthorized();
 
             var resignation =
-                _repository.SingleById<LocalResignation>(new ObjectId(id));
+                _repository.SingleById<LocalResignation>(id);
             resignation.EmployeeSignature = Input.VerificationSignature;
             if (resignation.Verify(_orgOptions.PublicKey))
             {
@@ -69,9 +69,7 @@ namespace Core.Areas.Local.Pages.Resignations
 
         private void Load(string id)
         {
-            var objId = new ObjectId(id);
-
-            Resignation = _repository.SingleById<LocalResignation>(objId);
+            Resignation = _repository.SingleById<LocalResignation>(id);
 
             Employee = _repository.SingleOrDefault<LocalEmployee>(
                 e => e.PublicKey == Resignation.EmployeePublicKey);

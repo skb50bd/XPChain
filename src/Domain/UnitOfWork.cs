@@ -1,6 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using LiteDB;
+﻿using MongoDB.Bson.Serialization.Attributes;
+
 using Newtonsoft.Json;
+
+using System.ComponentModel.DataAnnotations;
+
+using BsonType = MongoDB.Bson.BsonType;
 
 namespace Domain
 {
@@ -10,10 +14,10 @@ namespace Domain
         /// Public Key of the Organization
         /// </summary>
         public string Organization { get; set; }
-        
-        [JsonConverter(typeof(ObjectIdConverter))]
+
         [Display(Name = "Project ID")]
-        public ObjectId ProjectId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ProjectId { get; set; }
 
         /// <summary>
         /// Public Key of the Employee that completed the Work
@@ -35,13 +39,13 @@ namespace Domain
         /// </summary>
         public decimal Xp { get; set; }
 
-        [BsonIgnore]
+        [LiteDB.BsonIgnore]
         [JsonIgnore]
         public string Payload =>
-            (Organization            +
-             ProjectId               +
-             Executor                +
-             Tags                    +
+            (Organization +
+             ProjectId +
+             Executor +
+             Tags +
              Xp.ToString("0.######") +
              Description).ToBase64();
 

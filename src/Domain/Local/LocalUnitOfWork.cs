@@ -1,16 +1,19 @@
-﻿using LiteDB;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Crypto;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain
 {
     public class LocalUnitOfWork : Entity
     {
         [Display(Name = "Project")]
-        public ObjectId ProjectId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ProjectId { get; set; }
 
         [Display(Name = "Executor ID")]
-        public ObjectId ExecutorId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ExecutorId { get; set; }
 
         /// <summary>
         /// Public Key of the Employee that completed the Work

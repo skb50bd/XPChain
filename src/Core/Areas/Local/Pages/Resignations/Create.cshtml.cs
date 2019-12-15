@@ -70,7 +70,7 @@ namespace Core.Areas.Local.Pages.Resignations
 
             var certificate = new LocalResignation
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 EndDate = Input.EndDate,
                 EmployeePublicKey = Input.Employee,
                 Description = Input.Description

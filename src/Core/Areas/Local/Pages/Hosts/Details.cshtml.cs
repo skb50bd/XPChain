@@ -22,8 +22,7 @@ namespace Core.Areas.Local.Pages.Hosts
 
         public IActionResult OnGet(string id)
         {
-            var objId = new ObjectId(id);
-            Host = _repository.SingleById<Host>(objId);
+            Host = _repository.SingleById<Host>(id);
 
             return Page();
         }

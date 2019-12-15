@@ -38,7 +38,7 @@ namespace Core.Areas.Local.Pages.Certifications
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            var objId = new ObjectId(id);
+            var objId = id;
             Certificate = _repository.SingleById<LocalCertificate>(objId);
             LocalEmployee =
                 _repository.SingleOrDefault<LocalEmployee>(
@@ -69,8 +69,7 @@ namespace Core.Areas.Local.Pages.Certifications
             if (!IsAdmin)
                 return Unauthorized();
 
-            var objId = new ObjectId(id);
-            Certificate = _repository.SingleById<LocalCertificate>(objId);
+            Certificate = _repository.SingleById<LocalCertificate>(id);
 
             var certificate = new Certificate
             {
@@ -86,7 +85,7 @@ namespace Core.Areas.Local.Pages.Certifications
 
             var block = new Block
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 PreviousBlockHash = prevHash,
                 Originator = _orgOptions.PublicKey,
                 Data = certificate.ToJson(),

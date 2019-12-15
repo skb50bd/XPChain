@@ -26,7 +26,7 @@ namespace Core.Areas.Local.Pages.Organizations
 
             var org = new LocalOrganization
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 Title = Input.Title,
                 Address = Input.Address,
                 Email = Input.Email,

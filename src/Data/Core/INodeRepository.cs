@@ -29,7 +29,7 @@ namespace Data.Persistence
         /// <summary>
         /// Search for a single instance of T by Id. Shortcut from Query.SingleById
         /// </summary>
-        T SingleById<T>(ObjectId id, string collectionName = null);
+        T SingleById<T>(string id, string collectionName = null);
 
         /// <summary>
         /// Execute Query[T].Where(predicate).ToList();
@@ -68,7 +68,7 @@ namespace Data.Persistence
 
         bool Update<T>(T item, string collectionName = null);
 
-        bool Delete<T>(ObjectId id, string collectionName = null);
+        bool Delete<T>(string id, string collectionName = null);
         bool Delete<T>(T item, string collectionName = null);
     }
 }

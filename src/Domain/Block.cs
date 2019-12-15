@@ -1,14 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
-using LiteDB;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Domain
 {
     public class Block
     {
         [Display(Name = "Block ID")]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
         [Display(Name = "Hash")]
         public string Hash { get; set; }

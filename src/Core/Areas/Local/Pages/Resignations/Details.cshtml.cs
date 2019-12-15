@@ -38,8 +38,7 @@ namespace Core.Areas.Local.Pages.Resignations
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            var objId = new ObjectId(id);
-            Resignation = _repository.SingleById<LocalResignation>(objId);
+            Resignation = _repository.SingleById<LocalResignation>(id);
             LocalEmployee =
                 _repository.SingleOrDefault<LocalEmployee>(
                     e => e.PublicKey == Resignation.EmployeePublicKey);
@@ -69,8 +68,7 @@ namespace Core.Areas.Local.Pages.Resignations
             if (!IsAdmin)
                 return Unauthorized();
 
-            var objId = new ObjectId(id);
-            Resignation = _repository.SingleById<LocalResignation>(objId);
+            Resignation = _repository.SingleById<LocalResignation>(id);
 
             var resignation = new Resignation
             {
@@ -86,7 +84,7 @@ namespace Core.Areas.Local.Pages.Resignations
 
             var block = new Block
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 PreviousBlockHash = prevHash,
                 Originator = _orgOptions.PublicKey,
                 Data = resignation.ToJson(),

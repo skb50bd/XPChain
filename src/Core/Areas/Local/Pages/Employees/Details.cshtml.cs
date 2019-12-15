@@ -37,8 +37,7 @@ namespace Core.Areas.Local.Pages.Employees
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            var objId = new ObjectId(id);
-            LocalEmployee = _repository.SingleById<LocalEmployee>(objId);
+            LocalEmployee = _repository.SingleById<LocalEmployee>(id);
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             IsAdmin = await _userManager.IsInRoleAsync(user, "Admin");
@@ -62,8 +61,7 @@ namespace Core.Areas.Local.Pages.Employees
             if (!IsAdmin)
                 return Unauthorized();
 
-            var objId = new ObjectId(id);
-            LocalEmployee = _repository.SingleById<LocalEmployee>(objId);
+            LocalEmployee = _repository.SingleById<LocalEmployee>(id);
 
             var employee = new Employee
             {
@@ -80,7 +78,7 @@ namespace Core.Areas.Local.Pages.Employees
 
             var block = new Block
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 PreviousBlockHash = prevHash,
                 Originator = _orgOptions.PublicKey,
                 Data = employee.ToJson(),

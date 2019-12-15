@@ -70,7 +70,7 @@ namespace Core.Areas.Local.Pages.Certifications
 
             var certificate = new LocalCertificate
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 Title = Input.Title,
                 ReceiverPublicKey = Input.Receiver,
                 Description = Input.Description

@@ -22,10 +22,10 @@ namespace Data.Persistence
 
         IEnumerable<Block> GetAll();
 
-        Block GetById(ObjectId id);
+        Block GetById(string id);
         Block GetByHash(string hash);
 
         IEnumerable<T> GetAll<T>();
-        T GetById<T>(ObjectId id);
+        T GetById<T>(string id);
     }
 }

@@ -58,7 +58,7 @@ namespace Core.Areas.Local.Pages.Certifications
             if (!IsCorrectEmployee) return Unauthorized();
 
             var certificate =
-                _repository.SingleById<LocalCertificate>(new ObjectId(id));
+                _repository.SingleById<LocalCertificate>(id);
             certificate.ReceiverSignature = Input.VerificationSignature;
             if (certificate.Verify(_orgOptions.PublicKey))
             {
@@ -71,9 +71,7 @@ namespace Core.Areas.Local.Pages.Certifications
 
         private void Load(string id)
         {
-            var objId = new ObjectId(id);
-
-            Certificate = _repository.SingleById<LocalCertificate>(objId);
+            Certificate = _repository.SingleById<LocalCertificate>(id);
 
             LocalEmployee = _repository.SingleOrDefault<LocalEmployee>(
                 e => e.PublicKey == Certificate.ReceiverPublicKey);

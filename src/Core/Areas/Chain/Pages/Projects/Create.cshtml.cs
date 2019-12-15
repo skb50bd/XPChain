@@ -41,7 +41,7 @@ namespace Core.Areas.Chain.Pages.Projects
 
             var project = new Project
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 Title = Input.Title,
                 Organization = _orgOptions.PublicKey,
                 TotalXp = Input.TotalXp,
@@ -51,7 +51,7 @@ namespace Core.Areas.Chain.Pages.Projects
             var previousHash = _ledger.GetLastBlockHash();
             var block = new Block
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 Data = project.ToJson(),
                 Type = typeof(Project).Name,
                 Originator = project.Organization,

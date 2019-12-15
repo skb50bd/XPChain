@@ -134,7 +134,7 @@ namespace Data.Persistence
                              .Select(b => JsonConvert.DeserializeObject<T>(b.Data));
         }
 
-        public T GetById<T>(ObjectId id)
+        public T GetById<T>(string id)
         {
             var strId = id.ToString();
             return JsonConvert.DeserializeObject<T>(
@@ -144,7 +144,7 @@ namespace Data.Persistence
                           .Data);
         }
 
-        public Block GetById(ObjectId id) =>
+        public Block GetById(string id) =>
             Collection.FindOne(Query.EQ("_id", id));
 
         public Block GetByHash(string hash) =>

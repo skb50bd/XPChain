@@ -82,11 +82,11 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
             if (!IsAdmin && !IsCorrectEmployee) return Unauthorized();
 
             var executor =
-                _repository.SingleById<LocalEmployee>(new ObjectId(Input.Executor));
+                _repository.SingleById<LocalEmployee>(Input.Executor);
             var uow = new LocalUnitOfWork
             {
-                Id = ObjectId.NewObjectId(),
-                ProjectId = new ObjectId(Input.Project),
+                Id = ObjectId.NewObjectId().ToString(),
+                ProjectId = Input.Project,
                 ExecutorId = executor.Id,
                 ExecutorPublicKey = executor.PublicKey,
                 Tags = Input.Tags,

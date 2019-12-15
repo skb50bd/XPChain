@@ -57,7 +57,7 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
             if (!IsCorrectEmployee) return Unauthorized();
 
             var uow =
-                _repository.SingleById<LocalUnitOfWork>(new ObjectId(id));
+                _repository.SingleById<LocalUnitOfWork>(id);
             uow.EmployeeSignature = Input.VerificationSignature;
             if (uow.Verify(_orgOptions.PublicKey))
             {
@@ -70,11 +70,9 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
 
         private void Load(string id)
         {
-            var objId = new ObjectId(id);
+            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(id);
 
-            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(objId);
-
-            LocalEmployee = _repository.SingleById<LocalEmployee>(new ObjectId(UnitOfWork.ExecutorId));
+            LocalEmployee = _repository.SingleById<LocalEmployee>(UnitOfWork.ExecutorId);
 
             IsCorrectEmployee =
                 User.Identity.Name

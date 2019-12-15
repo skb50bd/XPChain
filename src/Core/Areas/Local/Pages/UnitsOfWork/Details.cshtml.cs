@@ -39,11 +39,9 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            var objId = new ObjectId(id);
-            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(objId);
+            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(id);
             LocalEmployee =
-                _repository.SingleById<LocalEmployee>(
-                    new ObjectId(UnitOfWork.ExecutorId));
+                _repository.SingleById<LocalEmployee>(UnitOfWork.ExecutorId);
             
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             IsAdmin = await _userManager.IsInRoleAsync(user, "Admin");
@@ -74,9 +72,7 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
 
             if (!IsAdmin)
                 return Unauthorized();
-
-            var objId = new ObjectId(id);
-            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(objId);
+            UnitOfWork = _repository.SingleById<LocalUnitOfWork>(id);
 
             var uow = new UnitOfWork
             {
@@ -94,7 +90,7 @@ namespace Core.Areas.Local.Pages.UnitsOfWork
 
             var block = new Block
             {
-                Id = ObjectId.NewObjectId(),
+                Id = ObjectId.NewObjectId().ToString(),
                 PreviousBlockHash = prevHash,
                 Originator = _orgOptions.PublicKey,
                 Data = uow.ToJson(),
