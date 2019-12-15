@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
+using Domain.Local;
 
 namespace Core.Areas.Local.Pages.Employees
 {

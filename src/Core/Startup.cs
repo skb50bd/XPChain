@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Data.Persistence;
 using Data;
 using Domain;
+using Domain.Local;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
@@ -97,7 +98,7 @@ namespace Core
                     "XPChain API V1");
                 //c.RoutePrefix = string.Empty;
             });
-
+            app.UseCors();
             app.UseRouting();
 
             app.UseAuthentication();

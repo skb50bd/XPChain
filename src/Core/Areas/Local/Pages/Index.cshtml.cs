@@ -1,3 +1,4 @@
+using Domain.Local;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 

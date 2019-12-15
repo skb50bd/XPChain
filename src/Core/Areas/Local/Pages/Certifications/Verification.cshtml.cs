@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.ConstrainedExecution;
+using Domain.Local;
 
 namespace Core.Areas.Local.Pages.Certifications
 {

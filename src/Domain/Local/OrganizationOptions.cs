@@ -1,7 +1,4 @@
-using System.Security.Cryptography;
-using Domain;
-
-namespace Core
+namespace Domain.Local
 {
     public class OrganizationOptions
     {

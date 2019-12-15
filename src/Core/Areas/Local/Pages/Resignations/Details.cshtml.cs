@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
+using Domain.Local;
 using Microsoft.Extensions.Options;
 
 namespace Core.Areas.Local.Pages.Resignations

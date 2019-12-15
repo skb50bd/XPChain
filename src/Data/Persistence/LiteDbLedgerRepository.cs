@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Local;
 
 namespace Data.Persistence
 {
@@ -25,12 +26,15 @@ namespace Data.Persistence
 
         private readonly INodeRepository _repository;
 
+        private readonly OrganizationOptions _options;
+
         #endregion
 
         #region Ctor
 
         public LiteDbLedgerRepository(
             INodeRepository repository,
+            IOptionsMonitor<OrganizationOptions> optionsMonitor,
             IOptionsMonitor<LiteSettings> settings,
             BsonMapper mapper = null)
         {
@@ -40,6 +44,7 @@ namespace Data.Persistence
             Collection.EnsureIndex(b => b.Hash);
             Collection.EnsureIndex(b => b.PreviousBlockHash);
             _repository = repository;
+            _options = optionsMonitor.CurrentValue;
         }
 
         public LiteDbLedgerRepository(
@@ -87,38 +92,35 @@ namespace Data.Persistence
             
             if (!item.Validate()) throw new InvalidBlockException();
 
-            
-            ///Post Broadcast requests start here
-            var hosts = _repository.GetAll<Host>();
-
-            foreach(var host in hosts)
-            {
-                if (item.Originator == host.PublicKey)
-                    continue;
-
-                var Url = host.Address + "/" + host.Port + "/" + "/ledger/InsertBlock";
-
-                using (var client = new HttpClient())
-                using (var request = new HttpRequestMessage(HttpMethod.Post, Url))
-                {
-                    var json = JsonConvert.SerializeObject(item);
-                    using (var stringContent = new StringContent(json, Encoding.UTF8, "application/json"))
-                    {
-                        request.Content = stringContent;
-
-                        using (var response = await client
-                            .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                            .ConfigureAwait(false))
-                        {
-                            response.EnsureSuccessStatusCode();
-                        }
-                    }
-                }
-
-            }
-        
             var id = Collection.Insert(item);
+            
+            if(_options.PublicKey == item.Originator)
+                await BroadCast(item);
+            
             return GetById(id);
+        }
+
+        private async Task BroadCast(Block item)
+        {
+            using var client = new HttpClient();
+            var hosts = _repository.GetAll<Host>();
+            var json = JsonConvert.SerializeObject(item);
+            using var stringContent =
+                new StringContent(
+                    json,
+                    Encoding.UTF8,
+                    "application/json");
+
+            var counter = 0;
+            foreach (
+                var url in 
+                from host in hosts 
+                where item.Originator != host.PublicKey 
+                select $"https://{host.Address}:{host.Port}/Ledger/InsertBlock")
+            {
+                var result = await client.PostAsync(url, stringContent);
+                if (result.IsSuccessStatusCode) counter++;
+            }
         }
 
         public IEnumerable<Block> GetAll()
