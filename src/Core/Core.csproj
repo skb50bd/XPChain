@@ -4,7 +4,6 @@
     <UserSecretsId>aspnet-Core-FF1AE049-544E-452F-8ECC-5E109444A88F</UserSecretsId>
     <LangVersion>8</LangVersion>
     <AssemblyName>XPCore</AssemblyName>
-    <OutputType>WinExe</OutputType>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>true</PublishTrimmed>

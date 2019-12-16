@@ -334,3 +334,4 @@ ASALocalRun/
 .ionide/
 .vscode/
 *.DotSettings
+/Assets/CryptoApp.exe
