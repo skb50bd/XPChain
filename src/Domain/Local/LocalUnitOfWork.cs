@@ -1,18 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Crypto;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using Crypto;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
     public class LocalUnitOfWork : Entity
     {
         [Display(Name = "Project")]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string ProjectId { get; set; }
 
         [Display(Name = "Executor ID")]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string ExecutorId { get; set; }
 
         /// <summary>
@@ -38,7 +35,6 @@ namespace Domain
         [Display(Name = "Executor's Signature")]
         public string EmployeeSignature { get; set; }
 
-
         public bool IsReadyToDeploy =>
             !string.IsNullOrWhiteSpace(EmployeeSignature);
 
@@ -53,13 +49,13 @@ namespace Domain
     public static class LocalUnitOfWorkExtensions
     {
         public static string GetVerificationMessage(
-            this LocalUnitOfWork uow, 
+            this LocalUnitOfWork uow,
             string orgPublicKey)
         {
-            var output = orgPublicKey                +
-                         uow.ProjectId               +
-                         uow.ExecutorPublicKey       +
-                         uow.Tags                    +
+            var output = orgPublicKey +
+                         uow.ProjectId +
+                         uow.ExecutorPublicKey +
+                         uow.Tags +
                          uow.Xp.ToString("0.######") +
                          uow.Description;
 
@@ -67,7 +63,7 @@ namespace Domain
         }
 
         public static bool Verify(
-            this LocalUnitOfWork uow, 
+            this LocalUnitOfWork uow,
             string orgPublicKey) =>
             SignatureProvider.Verify(
                 uow.GetVerificationMessage(orgPublicKey),

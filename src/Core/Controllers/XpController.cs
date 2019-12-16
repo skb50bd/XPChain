@@ -1,6 +1,9 @@
 ﻿using Data.Persistence;
+
 using Domain;
+
 using Microsoft.AspNetCore.Mvc;
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -62,15 +65,14 @@ namespace Core.Controllers
         public Block PostBlock(Block block)
         {
             var orgs = _ledger.GetAll<Organization>();
-            Block b = _ledger.GetById(block.Id);
-            if(b == null)
-            {
-                var validOrg = orgs.Any(o => o.PublicKey == block.Originator);
+            var b = _ledger.GetById(block.Id);
+            if (b != null) throw new KeyNotFoundException();
+            
+            var validOrg = orgs.Any(o => o.PublicKey == block.Originator);
 
-                if (validOrg)
-                    _ledger.Insert(block);
-            }
-           
+            if (validOrg)
+                _ledger.Insert(block);
+
             throw new KeyNotFoundException();
         }
 

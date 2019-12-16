@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using LiteDB;
-using Newtonsoft.Json;
 
 namespace Domain
 {
@@ -27,12 +25,10 @@ namespace Domain
         [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
 
-        [BsonIgnore]
-        [JsonIgnore]
         public string Payload =>
             (Organization +
-             Employee     +
-             Description  +
+             Employee +
+             Description +
              EndDate.TimeStamp()).ToBase64();
 
         [Display(Name = "Employee's Signature")]

@@ -1,5 +1,4 @@
-﻿using System;
-using Crypto;
+﻿using Crypto;
 
 namespace Domain
 {
@@ -13,6 +12,9 @@ namespace Domain
 
         public string VerificationSignature { get; set; }
 
+        public bool IsReadyToDeploy =>
+            !string.IsNullOrWhiteSpace(VerificationSignature);
+        
         public bool IsDeployed { get; set; }
     }
 

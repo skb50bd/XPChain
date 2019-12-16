@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Domain
+﻿namespace Domain
 {
     public class Organization : Entity
     {
@@ -9,6 +7,13 @@ namespace Domain
         public string Address { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+
+        public string Payload =>
+            (PublicKey +
+             Title     +
+             Address   +
+             Email     +
+             Phone).ToBase64();
 
         public string VerificationSignature { get; set; }
     }

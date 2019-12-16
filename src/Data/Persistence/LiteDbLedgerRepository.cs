@@ -1,14 +1,18 @@
 ﻿using Domain;
+using Domain.Local;
+
 using LiteDB;
+
 using Microsoft.Extensions.Options;
+
 using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Local;
 
 namespace Data.Persistence
 {
@@ -39,6 +43,8 @@ namespace Data.Persistence
             BsonMapper mapper = null)
         {
             if (mapper is null) mapper = BsonMapper.Global;
+            mapper.Configure();
+
             Db = new LiteDatabase(settings.CurrentValue.Ledger, mapper);
             Collection.EnsureIndex(b => b.Type);
             Collection.EnsureIndex(b => b.Hash);
@@ -66,7 +72,7 @@ namespace Data.Persistence
             Db.Dispose();
         }
 
-        public string GetLastBlockHash() => 
+        public string GetLastBlockHash() =>
             GetLastBlock()?.Hash;
 
         public Block GetLastBlock() =>
@@ -86,17 +92,17 @@ namespace Data.Persistence
             var lastBlockHash = GetLastBlockHash();
             if (string.IsNullOrWhiteSpace(item.PreviousBlockHash))
                 item.PreviousBlockHash = lastBlockHash;
-            
-            if(item.PreviousBlockHash != lastBlockHash) 
+
+            if (item.PreviousBlockHash != lastBlockHash)
                 throw new HashMismatchException();
-            
+
             if (!item.Validate()) throw new InvalidBlockException();
 
             var id = Collection.Insert(item);
-            
-            if(_options.PublicKey == item.Originator)
+
+            if (_options.PublicKey == item.Originator)
                 await BroadCast(item);
-            
+
             return GetById(id);
         }
 
@@ -113,9 +119,9 @@ namespace Data.Persistence
 
             var counter = 0;
             foreach (
-                var url in 
-                from host in hosts 
-                where item.Originator != host.PublicKey 
+                var url in
+                from host in hosts
+                where item.Originator != host.PublicKey
                 select $"https://{host.Address}:{host.Port}/Ledger/InsertBlock")
             {
                 var result = await client.PostAsync(url, stringContent);

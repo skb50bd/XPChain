@@ -15,7 +15,6 @@ namespace Domain
         [Display(Name = "Receiver's Signature")]
         public string ReceiverSignature { get; set; }
 
-
         public bool IsReadyToDeploy =>
             !string.IsNullOrWhiteSpace(ReceiverSignature);
 

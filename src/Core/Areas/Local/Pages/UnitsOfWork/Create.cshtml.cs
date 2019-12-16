@@ -1,16 +1,19 @@
 ﻿using Data.Persistence;
+
 using Domain;
+
+using LiteDB;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Options;
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using LiteDB;
 
 namespace Core.Areas.Local.Pages.UnitsOfWork
 {

@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using LiteDB;
-using Newtonsoft.Json;
 
 namespace Domain
 {
@@ -26,12 +24,10 @@ namespace Domain
         /// </summary>
         public string Description { get; set; }
 
-        [BsonIgnore]
-        [JsonIgnore]
         public string Payload =>
             (Issuer +
-             Owner  +
-             Title  +
+             Owner +
+             Title +
              Description).ToBase64();
 
         [Display(Name = "Owner's Signature")]

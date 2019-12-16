@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain
 {
-    [Serializable()]
+    [Serializable]
     public class InvalidBlockException : Exception
     {
         public InvalidBlockException() : base("The block is invalid.") { }

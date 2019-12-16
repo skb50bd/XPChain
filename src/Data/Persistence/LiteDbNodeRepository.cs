@@ -59,7 +59,7 @@ namespace Data.Persistence
         /// Search for a single instance of T by Id. Shortcut from Query.SingleById
         /// </summary>
         public T SingleById<T>(string id, string collectionName = null) =>
-            Repository.SingleById<T>(new BsonValue(id), collectionName);
+            Repository.SingleById<T>(id, collectionName);
 
         /// <summary>
         /// Execute Query[T].Where(predicate).ToList();
@@ -105,7 +105,7 @@ namespace Data.Persistence
             Repository.Update(item, collectionName);
 
         public bool Delete<T>(string id, string collectionName = null) =>
-            Repository.Delete<T>(new BsonValue(id), collectionName);
+            Repository.Delete<T>(id, collectionName);
 
         public bool Delete<T>(T item, string collectionName = null)
         {

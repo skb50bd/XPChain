@@ -1,10 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-
-using Newtonsoft.Json;
-
-using System.ComponentModel.DataAnnotations;
-
-using BsonType = MongoDB.Bson.BsonType;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain
 {
@@ -16,7 +10,6 @@ namespace Domain
         public string Organization { get; set; }
 
         [Display(Name = "Project ID")]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string ProjectId { get; set; }
 
         /// <summary>
@@ -39,8 +32,6 @@ namespace Domain
         /// </summary>
         public decimal Xp { get; set; }
 
-        [LiteDB.BsonIgnore]
-        [JsonIgnore]
         public string Payload =>
             (Organization +
              ProjectId +

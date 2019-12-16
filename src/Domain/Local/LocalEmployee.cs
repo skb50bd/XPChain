@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Crypto;
+
+using System;
 using System.ComponentModel.DataAnnotations;
-using Crypto;
-using LiteDB;
-using Newtonsoft.Json;
 
 namespace Domain
 {
@@ -40,14 +39,12 @@ namespace Domain
         [Display(Name = "Identification Number")]
         public string IdentificationNumber { get; set; }
 
-        [JsonIgnore]
-        [BsonIgnore]
         [Display(Name = "Verification Message")]
         public string IdentificationMessage =>
-            (Name.ToUpperInvariant()        +
-             " "                            +
+            (Name.ToUpperInvariant() +
+             " " +
              BirthDate.ToString("yyyyMMdd") +
-             " "                            +
+             " " +
              IdentificationNumber)
            .Replace(" ", "_")
            .ToBase64();
@@ -61,8 +58,6 @@ namespace Domain
         [Display(Name = "Deployed to XPChain")]
         public bool IsDeployed { get; set; }
 
-        [JsonIgnore]
-        [BsonIgnore]
         public bool IsReadyToDeploy =>
             !string.IsNullOrWhiteSpace(IdentificationSignature)
          && !string.IsNullOrWhiteSpace(VerificationSignature);
@@ -72,16 +67,16 @@ namespace Domain
     {
         public static string GetVerificationMessage(
             this LocalEmployee emp,
-            string             orgPublicKey) =>
-            (orgPublicKey    +
-             emp.PublicKey   +
+            string orgPublicKey) =>
+            (orgPublicKey +
+             emp.PublicKey +
              emp.Designation +
              emp.StartDate.TimeStamp()).ToBase64();
 
         public static bool Verify(
             this LocalEmployee emp,
-            string             orgPublicKey,
-            string             signature) =>
+            string orgPublicKey,
+            string signature) =>
             SignatureProvider.Verify(
                 emp.GetVerificationMessage(orgPublicKey),
                 signature,
