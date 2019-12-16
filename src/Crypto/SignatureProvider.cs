@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Security.Cryptography;
-using System.Text;
+using static System.Convert;
 
 namespace Crypto
 {
     public static class SignatureProvider
     {
+
         /// <summary>
         /// Gets RSA signature of the input data
         /// </summary>
         /// <param name="data">The data as byte array</param>
-        /// <param name="privateKey">RSA private key as JSON string</param>
-        /// <returns>Signature as base64 string</returns>
-        public static string GetSignature(byte[] data, string privateKey)
+        /// <param name="privateKey">RSA private key as byte array</param>
+        /// <returns>Signature byte array</returns>
+        public static byte[] GetSignatureAsByteArray(byte[] data, byte[] privateKey)
         {
             using var rsa = new RSACryptoServiceProvider();
-            rsa.FromJson(privateKey);
-
-            var signature = rsa.SignData(data, new SHA1CryptoServiceProvider());
-
-            return Convert.ToBase64String(signature);
+            rsa.ImportRSAPrivateKey(privateKey, out _);
+            return rsa.SignData(data, new SHA1CryptoServiceProvider());
         }
 
         /// <summary>
@@ -28,31 +26,35 @@ namespace Crypto
         /// <param name="data">The data as string</param>
         /// <param name="privateKey">RSA private key as JSON string</param>
         /// <returns>Signature as base64 string</returns>
-        public static string GetSignature(string data, string privateKey) => 
-            GetSignature(
-                Encoding.UTF8.GetBytes(data?.Trim() ?? ""), 
-                privateKey?.Trim());
+        public static string GetSignature(string data, string privateKey)
+        {
+            var dataArray = FromBase64String(data?.Trim() ?? "");
+            var privateKeyArray = FromBase64String(privateKey?.Trim() ?? "");
+            var signature = GetSignatureAsByteArray(dataArray, privateKeyArray);
+
+            return ToBase64String(signature);
+        }
 
         /// <summary>
         /// Verify if a RSA Signature is valid against the data and public key
         /// </summary>
         /// <param name="plainText">Message to as byte array</param>
         /// <param name="signature">Signature of the Message as byte array</param>
-        /// <param name="publicKey">Public Key of the Signer</param>
+        /// <param name="publicKey">Public Key of the Signer as byte array</param>
         /// <returns></returns>
         public static bool Verify(
             byte[] plainText, 
             byte[] signature, 
-            string publicKey)
+            byte[] publicKey)
         {
             using var rsa = new RSACryptoServiceProvider();
-            rsa.FromJson(publicKey);
+            rsa.ImportRSAPublicKey(publicKey, out _);
 
             return rsa.VerifyData(
                 plainText, 
-                new SHA1CryptoServiceProvider(), signature);
+                new SHA1CryptoServiceProvider(), 
+                signature);
         }
-
 
         /// <summary>
         /// Verify if a RSA Signature is valid against the data and public key
@@ -63,11 +65,13 @@ namespace Crypto
         public static bool Verify(
             string plainText,
             string signature,
-            string publicKey) =>
-            Verify(
-                Encoding.UTF8.GetBytes(plainText?.Trim() ?? ""),
-                Convert.FromBase64String(signature?.Trim() ?? ""), 
-                publicKey?.Trim() ?? ""
-            );
+            string publicKey)
+        {
+            var plainTextArray = FromBase64String(plainText?.Trim() ?? "");
+            var signatureArray = FromBase64String(signature?.Trim() ?? "");
+            var publicKeyArray = FromBase64String(publicKey?.Trim() ?? "");
+
+            return Verify(plainTextArray, signatureArray, publicKeyArray);
+        }
     }
 }
