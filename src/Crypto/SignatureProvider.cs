@@ -1,6 +1,7 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+
 using static System.Convert;
+using static System.Text.Encoding;
 
 namespace Crypto
 {
@@ -28,8 +29,8 @@ namespace Crypto
         /// <returns>Signature as base64 string</returns>
         public static string GetSignature(string data, string privateKey)
         {
-            var dataArray = FromBase64String(data?.Trim() ?? "");
-            var privateKeyArray = FromBase64String(privateKey?.Trim() ?? "");
+            var dataArray = UTF8.GetBytes(data.Trim());
+            var privateKeyArray = FromBase64String(privateKey.Trim());
             var signature = GetSignatureAsByteArray(dataArray, privateKeyArray);
 
             return ToBase64String(signature);
@@ -43,16 +44,16 @@ namespace Crypto
         /// <param name="publicKey">Public Key of the Signer as byte array</param>
         /// <returns></returns>
         public static bool Verify(
-            byte[] plainText, 
-            byte[] signature, 
+            byte[] plainText,
+            byte[] signature,
             byte[] publicKey)
         {
             using var rsa = new RSACryptoServiceProvider();
             rsa.ImportRSAPublicKey(publicKey, out _);
 
             return rsa.VerifyData(
-                plainText, 
-                new SHA1CryptoServiceProvider(), 
+                plainText,
+                new SHA1CryptoServiceProvider(),
                 signature);
         }
 
@@ -67,9 +68,9 @@ namespace Crypto
             string signature,
             string publicKey)
         {
-            var plainTextArray = FromBase64String(plainText?.Trim() ?? "");
-            var signatureArray = FromBase64String(signature?.Trim() ?? "");
-            var publicKeyArray = FromBase64String(publicKey?.Trim() ?? "");
+            var plainTextArray = UTF8.GetBytes(plainText.Trim());
+            var signatureArray = FromBase64String(signature.Trim());
+            var publicKeyArray = FromBase64String(publicKey.Trim());
 
             return Verify(plainTextArray, signatureArray, publicKeyArray);
         }
