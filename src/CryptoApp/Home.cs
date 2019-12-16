@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CryptoApp
@@ -15,25 +10,25 @@ namespace CryptoApp
             InitializeComponent();
         }
 
-        private void genKey_Click(object sender, EventArgs e)
+        private void GenKey_Click(object sender, EventArgs e)
         {
-            GenerateKeys gs = new GenerateKeys(this);
+            var gs = new GenerateKeys(this);
             gs.Show();
-            this.Hide();
+            Hide();
         }
 
-        private void genSig_Click(object sender, EventArgs e)
+        private void GenSig_Click(object sender, EventArgs e)
         {
-            GenerateSignature gs = new GenerateSignature(this);
+            var gs = new GenerateSignature(this);
             gs.Show();
-            this.Hide();
+            Hide();
         }
 
         private void VerifySig_Click(object sender, EventArgs e)
         {
-            VerifySignature vs = new VerifySignature(this);
+            var vs = new VerifySignature(this);
             vs.Show();
-            this.Hide();
+            Hide();
         }
     }
 }

@@ -43,7 +43,7 @@
             this.genSig.TabIndex = 0;
             this.genSig.Text = "Generate Keys";
             this.genSig.UseVisualStyleBackColor = true;
-            this.genSig.Click += new System.EventHandler(this.genSig_Click);
+            this.genSig.Click += new System.EventHandler(this.GenSig_Click);
             // 
             // back
             // 
@@ -53,7 +53,7 @@
             this.back.TabIndex = 0;
             this.back.Text = "Back";
             this.back.UseVisualStyleBackColor = true;
-            this.back.Click += new System.EventHandler(this.back_Click);
+            this.back.Click += new System.EventHandler(this.Back_Click);
             // 
             // label1
             // 

@@ -1,30 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Crypto;
+﻿using Crypto;
+
+using System;
 using System.IO;
+using System.Windows.Forms;
 
 namespace CryptoApp
 {
     public partial class GenerateKeys : Form
     {
-        public GenerateKeys(Home home)
+        public GenerateKeys(Form home)
         {
             InitializeComponent();
-            this.Owner = home;
-            this.ControlBox = false;
+            Owner      = home;
+            ControlBox = false;
 
         }
 
-        private void genSig_Click(object sender, EventArgs e)
+        private void GenSig_Click(object sender, EventArgs e)
         {
-            var keyPair = KeyPair.NewKeyPair();
+            var keyPair     = KeyPair.NewKeyPair();
             privateKey.Text = keyPair.PrivateKey;
-            publicKey.Text = keyPair.PublicKey;
+            publicKey.Text  = keyPair.PublicKey;
 
             File.WriteAllLines("Keys.txt",
                                 new[] {
@@ -37,10 +33,10 @@ namespace CryptoApp
 
         }
 
-        private void back_Click(object sender, EventArgs e)
+        private void Back_Click(object sender, EventArgs e)
         {
-            this.Owner.Show();
-            this.Close();
+            Owner.Show();
+            Close();
         }
     }
 }

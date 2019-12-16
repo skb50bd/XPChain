@@ -96,7 +96,7 @@
             this.verifySig.TabIndex = 2;
             this.verifySig.Text = "Verify Signature";
             this.verifySig.UseVisualStyleBackColor = true;
-            this.verifySig.Click += new System.EventHandler(this.verifySig_Click);
+            this.verifySig.Click += new System.EventHandler(this.VerifySig_Click);
             // 
             // back
             // 
@@ -106,7 +106,7 @@
             this.back.TabIndex = 2;
             this.back.Text = "Back";
             this.back.UseVisualStyleBackColor = true;
-            this.back.Click += new System.EventHandler(this.back_Click);
+            this.back.Click += new System.EventHandler(this.Back_Click);
             // 
             // VerifySignature
             // 

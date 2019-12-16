@@ -41,7 +41,7 @@
             this.genKey.TabIndex = 0;
             this.genKey.Text = "Generate Public-Private Key Pair";
             this.genKey.UseVisualStyleBackColor = true;
-            this.genKey.Click += new System.EventHandler(this.genKey_Click);
+            this.genKey.Click += new System.EventHandler(this.GenKey_Click);
             // 
             // genSig
             // 
@@ -51,7 +51,7 @@
             this.genSig.TabIndex = 0;
             this.genSig.Text = "Generate Signature";
             this.genSig.UseVisualStyleBackColor = true;
-            this.genSig.Click += new System.EventHandler(this.genSig_Click);
+            this.genSig.Click += new System.EventHandler(this.GenSig_Click);
             // 
             // VerifySig
             // 

@@ -45,7 +45,7 @@
             this.genKeys.TabIndex = 0;
             this.genKeys.Text = "Generate Signature";
             this.genKeys.UseVisualStyleBackColor = true;
-            this.genKeys.Click += new System.EventHandler(this.genKeys_Click);
+            this.genKeys.Click += new System.EventHandler(this.GenKeys_Click);
             // 
             // Back
             // 

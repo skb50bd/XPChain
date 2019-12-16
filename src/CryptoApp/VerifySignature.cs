@@ -1,42 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+﻿using Crypto;
+
+using System;
 using System.Windows.Forms;
-using Crypto;
 
 namespace CryptoApp
 {
     public partial class VerifySignature : Form
     {
-        public VerifySignature(Home home)
+        public VerifySignature(Form home)
         {
             InitializeComponent();
-            this.Owner = home;
-            this.ControlBox = false;
+            Owner = home;
+            ControlBox = false;
         }
 
-        private void back_Click(object sender, EventArgs e)
+        private void Back_Click(object sender, EventArgs e)
         {
-            this.Owner.Show();
-            this.Close();
+            Owner.Show();
+            Close();
         }
 
-        private void verifySig_Click(object sender, EventArgs e)
+        private void VerifySig_Click(object sender, EventArgs e)
         {
             var data = message.Text;
             var sig = signature.Text;
             var pubKey = publicKey.Text;
 
             var isValid = SignatureProvider.Verify(data, sig, pubKey);
-            if (isValid)
-            {
-                MessageBox.Show("This is a valid signature");
-            }
-            else
-                MessageBox.Show("This is an invalid signature");
+            MessageBox.Show(isValid
+                ? "This is a valid signature"
+                : "This is an invalid signature");
         }
     }
 }
